@@ -6,7 +6,7 @@ enum class ShipState{Intact, Damaged, Destroyed};
 struct Coordinates{
     int x;
     int y;
-    bool operator==(const Coords& other) const {
+    bool operator==(const Coordinates& other) const {
         return (x == other.x && y == other.y);
     }
 };
