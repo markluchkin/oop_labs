@@ -3,6 +3,9 @@
 #include <iostream>
 
 
+enum class Orientation{Vertical, Horizontal, Undefined};
+
+
 enum class ShipState{Intact, Damaged, Destroyed};
 
 
