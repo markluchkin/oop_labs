@@ -1,6 +1,8 @@
 #ifndef OOP_LABS_SHIP_HPP
 #define OOP_LABS_SHIP_HPP
 #include "structures.hpp"
+#include <vector>
+
 
 class Ship {
 public:
@@ -14,9 +16,10 @@ public:
 
 private:
     int size;
-    bool orientation;
+    bool isVertical;
     ShipState state;
     Coordinates coordinates;
+    std::vector<ShipSegment> segments;
 };
 
 
