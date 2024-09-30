@@ -3,6 +3,7 @@
 
 #include "structures.hpp"
 #include <vector>
+#include <iostream>
 
 class Ship {
 public:
@@ -15,7 +16,7 @@ public:
     void setCoordinates(const Coordinates& coords);
     Coordinates getCoordinates() const;
 
-    void setOrientation(Orientation orientation);
+    void setOrientation(Orientation orient);
     Orientation getOrientation() const;
 
     void takeDamage(int segmentIndex);
@@ -30,6 +31,5 @@ private:
 
     void initializeSegments();
 };
-
 
 #endif //OOP_LABS_SHIP_HPP

@@ -1,16 +1,11 @@
 #ifndef OOP_LABS_STRUCTURES_HPP
 #define OOP_LABS_STRUCTURES_HPP
-#include <iostream>
-
 
 enum class Orientation{Vertical, Horizontal, Undefined};
 
-
 enum class ShipState{Intact, Damaged, Destroyed};
 
-
 enum class SegmentState{Intact, Damaged, Destroyed};
-
 
 struct Coordinates{
     int x;
@@ -20,12 +15,10 @@ struct Coordinates{
     }
 };
 
-
 struct ShipSegment{
     int hp;
     Coordinates coordinates;
     SegmentState segmentState;
 };
-
 
 #endif //OOP_LABS_STRUCTURES_HPP
