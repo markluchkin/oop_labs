@@ -18,6 +18,7 @@ public:
 
     void setOrientation(Orientation orient);
     Orientation getOrientation() const;
+    void rotateShip();
 
     void takeDamage(int segmentIndex);
     bool isDestroyed();

@@ -1,7 +1,7 @@
 #include "Ship.hpp"
-#include <stdexcept>
 
-Ship::Ship(int shipSize_) {
+Ship::Ship(int shipSize_)
+    : shipSize(0), orientation(Orientation::Undefined), state(ShipState::Intact), coordinates({0, 0}) {
     setSize(shipSize_);
     initializeSegments();
 }
@@ -9,7 +9,7 @@ Ship::Ship(int shipSize_) {
 Ship::~Ship() = default;
 
 void Ship::setSize(int shipSize_) {
-    if (shipSize < 1 || shipSize > 4) {
+    if (shipSize_ < 1 || shipSize_ > 4) {
         throw std::invalid_argument("Ship size must be: 1, 2, 3 or 4.");
     }
     this->shipSize = shipSize_;
@@ -35,28 +35,48 @@ Orientation Ship::getOrientation() const {
     return this->orientation;
 }
 
+void Ship::rotateShip() {
+    setOrientation(orientation == Orientation::Vertical ? Orientation::Horizontal : Orientation::Vertical);
+}
+
 void Ship::initializeSegments() {
     segments.resize(shipSize);
     for (int i = 0; i < shipSize; ++i) {
-        segments[i].hp = 1;
+        segments[i].hp = 2;
         segments[i].segmentState = SegmentState::Intact;
+        segments[i].coordinates = {
+                coordinates.x + (orientation == Orientation::Horizontal ? i : 0),
+                coordinates.y + (orientation == Orientation::Vertical ? i : 0)
+        };
 
-        segments[i].coordinates = {coordinates.x + (orientation == Orientation::Horizontal ? i : 0), coordinates.y};
-        segments[i].coordinates = {coordinates.x, coordinates.y + (orientation == Orientation::Vertical ? i : 0)};
     }
 }
 
 void Ship::takeDamage(int segmentIndex) {
-    //...
+    if (segmentIndex < 0 || segmentIndex >= static_cast<int>(segments.size())) {
+        throw std::out_of_range("Invalid segment index.");
+    }
+
+    ShipSegment& segment = segments[segmentIndex];
+    segment.hp--;
+
+    if (segment.hp == 1) {
+        segment.segmentState = SegmentState::Damaged;
+    } else if (segment.hp == 0) {
+        segment.segmentState = SegmentState::Destroyed;
+    }
 }
 
-bool Ship::isDestroyed(){
+bool Ship::isDestroyed() {
     for (const auto& segment : segments) {
-        if (segment.segmentState != SegmentState::Destroyed){
+        if (segment.segmentState != SegmentState::Destroyed) {
             return false;
         }
     }
 
-    this->state = ShipState::Destroyed;
+    if (state != ShipState::Destroyed) {
+        state = ShipState::Destroyed;
+    }
+
     return true;
 }
