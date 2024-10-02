@@ -1,4 +1,4 @@
-TARGET = ship_game
+TARGET = Battleship
 
 CXX = g++
 CXXFLAGS = -std=c++17 -Iinclude -Wall -Wextra -Werror
