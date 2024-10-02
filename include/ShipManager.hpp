@@ -4,7 +4,12 @@
 #include "Ship.hpp"
 
 class ShipManager {
+public:
+    ShipManager(const std::vector<int>& sizes);
+    ~ShipManager();
 
+private:
+    std::vector<Ship> ships;
 };
 
 
