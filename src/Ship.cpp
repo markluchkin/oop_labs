@@ -9,6 +9,15 @@ Ship::Ship(int shipSize_)
     initializeSegments();
 }
 
+Ship::Ship(int shipSize_, Orientation orient, Coordinates coords)
+    :  shipSize(shipSize_), orientation(orient), state(ShipState::Intact){
+    if (shipSize_ < 1 || shipSize_ > 4) {
+        throw std::invalid_argument("Ship size must be: 1, 2, 3 or 4.");
+    }
+    setCoordinates(coords);
+    initializeSegments();
+}
+
 Ship::~Ship() = default;
 
 int Ship::getSize() const {

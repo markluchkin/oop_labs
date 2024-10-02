@@ -7,7 +7,8 @@
 
 class Ship {
 public:
-    explicit Ship(int ShipSize);
+    explicit Ship(int shipSize_);
+    explicit Ship(int shipSize_, Orientation orient, Coordinates coords);
     ~Ship();
 
     int getSize() const;
