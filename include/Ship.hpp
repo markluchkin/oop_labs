@@ -10,18 +10,20 @@ public:
     explicit Ship(int ShipSize);
     ~Ship();
 
-    void setSize(int shipSize);
     int getSize() const;
 
     void setCoordinates(const Coordinates& coords);
     Coordinates getCoordinates() const;
 
-    void setOrientation(Orientation orient);
     Orientation getOrientation() const;
     void rotateShip();
 
+    const ShipSegment& getSegment(int index) const;
+
     void takeDamage(int segmentIndex);
     bool isDestroyed();
+
+    void printInfo();
 
 private:
     int shipSize;
@@ -29,7 +31,6 @@ private:
     ShipState state;
     Coordinates coordinates;
     std::vector<ShipSegment> segments;
-
     void initializeSegments();
 };
 
