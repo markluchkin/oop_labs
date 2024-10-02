@@ -1,7 +1,7 @@
 #ifndef OOP_LABS_STRUCTURES_HPP
 #define OOP_LABS_STRUCTURES_HPP
 
-enum class Orientation{Vertical, Horizontal, Undefined};
+enum class Orientation{Vertical, Horizontal};
 
 enum class ShipState{Intact, Damaged, Destroyed};
 
