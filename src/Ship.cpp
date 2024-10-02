@@ -91,14 +91,14 @@ bool Ship::isDestroyed() {
 }
 
 void Ship::printInfo() {
-    std::cout << "Ship Information:" << std::endl;
+    std::cout << "_____Ship Information_____" << std::endl;
     std::cout << " Size: " << shipSize << std::endl;
 
     std::cout << " Orientation: ";
     if (orientation == Orientation::Horizontal) {
-        std::cout << "Horizontal \n";
+        std::cout << "Horizontal, ";
     } else{
-        std::cout << "Vertical \n";
+        std::cout << "Vertical, ";
     }
 
     std::cout << " Starting coordinates: (" << coordinates.x << ", " << coordinates.y << ")\n";
