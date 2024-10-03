@@ -1,20 +1,13 @@
 #include "../include/Ship.hpp"
 
-Ship::Ship(int shipSize_)
-    : shipSize(shipSize_), orientation(Orientation::Vertical), state(ShipState::Intact), coordinates({0, 0}) {
-    if (shipSize_ < 1 || shipSize_ > 4) {
-        throw std::invalid_argument("Ship size must be: 1, 2, 3 or 4.");
-    }
-
-    initializeSegments();
-}
+Ship::Ship()
+    : Ship(1, Orientation::Vertical, {0, 0}){}
 
 Ship::Ship(int shipSize_, Orientation orient, Coordinates coords)
-    :  shipSize(shipSize_), orientation(orient), state(ShipState::Intact){
+    :  shipSize(shipSize_), orientation(orient), state(ShipState::Intact), coordinates(coords){
     if (shipSize_ < 1 || shipSize_ > 4) {
         throw std::invalid_argument("Ship size must be: 1, 2, 3 or 4.");
     }
-    setCoordinates(coords);
     initializeSegments();
 }
 
@@ -60,23 +53,22 @@ void Ship::initializeSegments() {
     }
 }
 
-void Ship::takeDamage(int segmentIndex) {
-    if (segmentIndex < 0 || segmentIndex >= static_cast<int>(segments.size())) {
-        throw std::out_of_range("Invalid segment index.");
-    }
+void Ship::takeDamage(int index) {
+    ShipSegment &segment = segments[index];
 
-    ShipSegment& segment = segments[segmentIndex];
-    if (segment.segmentState == SegmentState::Destroyed) {
+    if (segment.segmentState == SegmentState::Destroyed){
         throw std::logic_error("Can not damage a destroyed segment.");
     }
 
     segment.hp--;
 
-    if (segment.hp == 1) {
+    if (segment.hp == 1){
         segment.segmentState = SegmentState::Damaged;
-    } else if (segment.hp == 0) {
+    } else if (segment.hp == 0){
         segment.segmentState = SegmentState::Destroyed;
     }
+
+    isDestroyed();
 }
 
 bool Ship::isDestroyed() {

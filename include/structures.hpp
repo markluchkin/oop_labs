@@ -1,6 +1,8 @@
 #ifndef OOP_LABS_STRUCTURES_HPP
 #define OOP_LABS_STRUCTURES_HPP
 
+#include <memory>
+
 enum class Orientation{Vertical, Horizontal};
 
 enum class ShipState{Intact, Damaged, Destroyed};
@@ -23,10 +25,11 @@ struct ShipSegment{
     SegmentState segmentState;
 };
 
-struct CellSegment{
-    Coordinates coords;
-    CellState cellState;
-    std::shared_ptr<ShipSegment>;
-};
+//struct CellSegment{
+//    Coordinates coords;
+//    CellState cellState;
+//    std::shared_ptr<Ship> ship_;
+//    int segmentIdx;
+//};
 
 #endif //OOP_LABS_STRUCTURES_HPP

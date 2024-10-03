@@ -7,8 +7,8 @@
 
 class Ship {
 public:
-    explicit Ship(int shipSize_);
-    explicit Ship(int shipSize_, Orientation orient, Coordinates coords);
+    Ship();
+    explicit Ship(int shipSize_ = 1, Orientation orient = Orientation::Vertical, Coordinates coords = {0, 0});
 
     int getSize() const;
 
@@ -20,7 +20,7 @@ public:
 
     const ShipSegment& getSegment(int index) const;
 
-    void takeDamage(int segmentIndex);
+    void takeDamage(int index);
     bool isDestroyed();
 
     void printInfo();

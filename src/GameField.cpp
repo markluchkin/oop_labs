@@ -17,12 +17,26 @@ GameField::GameField(const GameField &other)
       field(other.field){
     createField();
 }
+GameField::GameField(GameField &&other)
+    : height(other.height), width(other.width),
+    field(std::move(other.field)){
+    other.field.clear();
+}
 
 GameField &GameField::operator=(const GameField &other) {
     if (this != &other) {
         height = other.height;
         width = other.width;
         field = other.field;
+    }
+    return *this;
+}
+
+GameField &GameField::operator=(GameField &&other) {
+    if (this != &other) {
+        height = other.height;
+        width = other.width;
+        field = std::move(other.field);
     }
     return *this;
 }
@@ -35,6 +49,7 @@ void GameField::createField() {
             field[y][x].coords.x = x;
             field[y][x].coords.y = y;
             field[y][x].cellState = CellState::Unknown;
+            field[y][x].ship_ = nullptr;
         }
     }
 }
@@ -51,13 +66,16 @@ int GameField::getWidth() const{
     return this->width;
 }
 
-void GameField::placeShip(Coordinates coords, std::shared_ptr<Ship> &ship) {
+void GameField::placeShip(Coordinates coords, std::shared_ptr<Ship> &ship,  Orientation orient) {
     if (ship == nullptr){
         throw std::invalid_argument("Invalid argument: nullptr was given.");
     }
 
     if (isPlaceAvailable(coords, ship)){
         ship->setCoordinates(coords);
+        if (orient == Orientation::Horizontal){
+            ship->rotateShip();
+        }
     }
 
     int shipSize = ship->getSize();
@@ -67,15 +85,28 @@ void GameField::placeShip(Coordinates coords, std::shared_ptr<Ship> &ship) {
     for (int i = 0; i < shipSize; ++i) {
         if (ship->getOrientation() == Orientation::Horizontal) {
             field[startY][startX + i].cellState = CellState::ContainsShip;
+            field[startY][startX + i].ship_ = ship;
+            field[startY][startX + i].segmentIndex = i;
+
         } else {
             field[startY + i][startX].cellState = CellState::ContainsShip;
+            field[startY + i][startX].ship_ = ship;
+            field[startY + i][startX].segmentIndex = i;
         }
     }
 }
 
-//void GameField::attackCell(Coordinates coords) {
-//    return;
-//}
+void GameField::attackCell(Coordinates coords) {
+    if (!isValidCoordinates(coords)) {
+        throw std::out_of_range("Invalid coordinates.");
+    }
+    CellSegment& targetCell = field[coords.y][coords.x];
+
+    if (targetCell.cellState == CellState::ContainsShip){
+        auto hitShip = targetCell.ship_;
+        hitShip->takeDamage(targetCell.segmentIndex);
+    }
+}
 
 void GameField::printField() {
     for (int y = 0; y < height; ++y) {

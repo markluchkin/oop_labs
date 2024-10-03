@@ -7,10 +7,7 @@
 class ShipManager {
 public:
     ShipManager();
-    ShipManager(std::vector<int> sizes);
-
-    void addShip(std::shared_ptr<Ship> ship);
-    void createDefaultSetOfShips();
+    explicit ShipManager(std::vector<int> sizes);
 
     std::shared_ptr<Ship> getShip(int index);
     std::shared_ptr<Ship> getShipByCoords(Coordinates coords);
@@ -20,6 +17,8 @@ public:
 
 private:
     std::vector<std::shared_ptr<Ship>> ships;
+    void addShip(std::shared_ptr<Ship> ship);
+    void createDefaultSetOfShips();
 };
 
 #endif //OOP_LABS_SHIPMANAGER_HPP
