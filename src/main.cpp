@@ -1,6 +1,5 @@
 #include "../include/GameField.hpp"
 #include "../include/ShipManager.hpp"
-#include "../include/structures.hpp"
 
 int main() {
     std::cout << "BattleShip\n";
@@ -14,7 +13,11 @@ int main() {
     field.placeShip({3, 8}, s[3]);
 
     field.attackCell({5, 6});
-    manager.printShipsInfo();
+    field.attackCell({1, 3});
+    field.attackCell({3, 8});
+
     field.printField();
     return 0;
 }
+
+

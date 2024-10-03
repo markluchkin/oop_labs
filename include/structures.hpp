@@ -25,11 +25,4 @@ struct ShipSegment{
     SegmentState segmentState;
 };
 
-//struct CellSegment{
-//    Coordinates coords;
-//    CellState cellState;
-//    std::shared_ptr<Ship> ship_;
-//    int segmentIdx;
-//};
-
 #endif //OOP_LABS_STRUCTURES_HPP
