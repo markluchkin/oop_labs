@@ -1,4 +1,4 @@
-#include "Ship.hpp"
+#include "../include/Ship.hpp"
 
 Ship::Ship(int shipSize_)
     : shipSize(shipSize_), orientation(Orientation::Vertical), state(ShipState::Intact), coordinates({0, 0}) {
@@ -18,14 +18,13 @@ Ship::Ship(int shipSize_, Orientation orient, Coordinates coords)
     initializeSegments();
 }
 
-Ship::~Ship() = default;
-
 int Ship::getSize() const {
     return this->shipSize;
 }
 
 void Ship::setCoordinates(const Coordinates &coords) {
     this->coordinates = coords;
+    initializeSegments();
 }
 
 Coordinates Ship::getCoordinates() const {
