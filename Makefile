@@ -1,7 +1,7 @@
 TARGET = Battleship
 
 CXX = g++
-CXXFLAGS = -std=c++17 -Iinclude -Wall -Wextra -Werror
+CXXFLAGS = -std=c++17 -Iinclude -Wall -Wextra -Werror -g
 
 INCLUDE_DIR = include
 SRC_DIR = src

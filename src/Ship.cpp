@@ -33,47 +33,30 @@ void Ship::rotateShip() {
     initializeSegments();
 }
 
-const ShipSegment& Ship::getSegment(int index) const{
-    if (index < 1 || index > shipSize){
+std::shared_ptr<ShipSegment> Ship::getSegment(int index){
+    if (index < 0 || index >= shipSize){
         throw std::invalid_argument("Invalid segment index.");
     }
+
     return segments[index];
 }
 
 void Ship::initializeSegments() {
     segments.resize(shipSize);
     for (int i = 0; i < shipSize; ++i) {
-        segments[i].hp = 2;
-        segments[i].segmentState = SegmentState::Intact;
+        auto segment = std::make_shared<ShipSegment>();
         if (orientation == Orientation::Horizontal) {
-            segments[i].coordinates = {coordinates.x + i, coordinates.y};
+            segment->setCoordinates({coordinates.x + i, coordinates.y});
         } else if (orientation == Orientation::Vertical) {
-            segments[i].coordinates = {coordinates.x, coordinates.y + i};
+            segment->setCoordinates({coordinates.x, coordinates.y + i});
         }
+        segments[i] = segment;
     }
 }
 
-void Ship::takeDamage(int index) {
-    ShipSegment &segment = segments[index];
-
-    if (segment.segmentState == SegmentState::Destroyed){
-        throw std::logic_error("Can not damage a destroyed segment.");
-    }
-
-    segment.hp--;
-
-    if (segment.hp == 1){
-        segment.segmentState = SegmentState::Damaged;
-    } else if (segment.hp == 0){
-        segment.segmentState = SegmentState::Destroyed;
-    }
-
-    isDestroyed();
-}
-
-bool Ship::isDestroyed() {
+bool Ship::isDestroyed() { // I got to add some checkState methods?
     for (const auto& segment : segments) {
-        if (segment.segmentState != SegmentState::Destroyed) {
+        if (segment->getState() != SegmentState::Destroyed) {
             return false;
         }
     }
@@ -96,16 +79,16 @@ void Ship::printInfo() {
 
     std::cout << "Segments info:\n";
     for (int i = 0; i < shipSize; ++i) {
-        const ShipSegment &segment = segments[i];
+        auto segment = segments[i];
         std::cout << "  Segment " << i + 1 << ":"
-                  << " Coordinates: (" << segment.coordinates.x << ", " << segment.coordinates.y << ")"
-                  << ", HP: " << segment.hp
+                  << " Coordinates: (" << segment->getCoordinates().x << ", " << segment->getCoordinates().y << ")"
+                  << ", HP: " << segment->getHp()
                   << ", State: ";
-        if (segment.segmentState == SegmentState::Intact) {
+        if (segment->getState() == SegmentState::Intact) {
             std::cout << "Intact\n";
-        } else if (segment.segmentState == SegmentState::Damaged) {
+        } else if (segment->getState() == SegmentState::Damaged) {
             std::cout << "Damaged\n";
-        } else if (segment.segmentState == SegmentState::Destroyed) {
+        } else if (segment->getState() == SegmentState::Destroyed) {
             std::cout << "Destroyed\n";
         }
     }

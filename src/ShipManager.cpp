@@ -41,6 +41,6 @@ std::vector<std::shared_ptr<Ship>> ShipManager::getAllShips() {
 void ShipManager::printShipsInfo() {
     for (auto &ship : ships) {
         ship->printInfo();
-        std::cout << "------------------------\n";
+        std::cout << "--------------------\n";
     }
 }

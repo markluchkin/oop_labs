@@ -1,16 +1,16 @@
 #ifndef OOP_LABS_GAMEFIELD_HPP
 #define OOP_LABS_GAMEFIELD_HPP
 
-#include <memory>
-#include "../include/structures.hpp"
+
 #include "../include/Ship.hpp"
 #include "../include/CellSegment.hpp"
+
 
 class GameField {
 public:
     GameField();
-    explicit GameField(int height_, int width_);
-    explicit GameField(const GameField& other);
+    GameField(int height_, int width_);
+    GameField(const GameField& other);
     GameField(GameField &&other);
     GameField &operator=(const GameField &other);
     GameField &operator=(GameField &&other);
@@ -22,13 +22,13 @@ public:
     int getHeight() const;
     int getWidth() const;
 
-    void placeShip(Coordinates coords, std::shared_ptr<Ship> &ship, Orientation orient = Orientation::Vertical);
+    void placeShip(Coordinates coords, const std::shared_ptr<Ship> &ship, Orientation orient = Orientation::Vertical);
     void attackCell(Coordinates coords);
 
     void printField();
 
     bool isValidCoordinates(Coordinates coords) const;
-    bool isPlaceAvailable(Coordinates coords, std::shared_ptr<Ship> &ship) const;
+    bool isPlaceAvailable(Coordinates coords, const std::shared_ptr<Ship> &ship) const;
 
 private:
     int height;

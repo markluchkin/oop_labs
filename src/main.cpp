@@ -15,7 +15,9 @@ int main() {
     field.attackCell({5, 6});
     field.attackCell({1, 3});
     field.attackCell({3, 8});
+    field.attackCell({0, 4});
 
+    manager.printShipsInfo();
     field.printField();
     return 0;
 }
