@@ -1,4 +1,2 @@
 # oop_labs
-branches:
-  main - it doesnt matter
-  fierst_lab - code for first lab
+branches:<br/>main - it doesnt matter<br/>fierst_lab - code for first lab
