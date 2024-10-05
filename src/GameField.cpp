@@ -101,7 +101,7 @@ void GameField::attackCell(Coordinates coords) {
     if (targetCell.cellState == CellState::ContainsShip && targetCell.shipSegment != nullptr){
         try{
             targetCell.shipSegment->takeDamage();
-        } catch (std::logic_error){
+        } catch (std::logic_error()){
             std::cout << "Error: Can not damage a destroyed segment.\n";
         }
 
