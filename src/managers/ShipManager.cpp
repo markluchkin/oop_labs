@@ -1,4 +1,4 @@
-#include "../include/ShipManager.hpp"
+#include "../../include/ShipManager.hpp"
 
 ShipManager::ShipManager(){
     createDefaultSetOfShips();

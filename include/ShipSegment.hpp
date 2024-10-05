@@ -6,7 +6,7 @@
 class ShipSegment{
 public:
     ShipSegment();
-    ~ShipSegment();
+    ~ShipSegment() = default;
     int getHp() const;
     void takeDamage();
 

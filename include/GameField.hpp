@@ -14,7 +14,7 @@ public:
     GameField(GameField &&other);
     GameField &operator=(const GameField &other);
     GameField &operator=(GameField &&other);
-    ~GameField();
+    ~GameField() = default;
 
     void createField();
 

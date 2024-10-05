@@ -1,9 +1,7 @@
-#include "../include/ShipSegment.hpp"
+#include "../../include/ShipSegment.hpp"
 
 ShipSegment::ShipSegment()
     : hp(2), segmentState(SegmentState::Intact), coordinates({0, 0}) {}
-
-ShipSegment::~ShipSegment() = default;
 
 int ShipSegment::getHp() const{
     return hp;

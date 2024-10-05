@@ -1,4 +1,4 @@
-#include "../include/Ship.hpp"
+#include "../../include/Ship.hpp"
 
 Ship::Ship()
     : Ship(1, Orientation::Vertical, {0, 0}){}

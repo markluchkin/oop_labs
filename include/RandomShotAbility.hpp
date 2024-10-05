@@ -1,0 +1,10 @@
+#ifndef OOP_LABS_RANDOMSHOTABILITY_HPP
+#define OOP_LABS_RANDOMSHOTABILITY_HPP
+
+
+class RandomShotAbility {
+
+};
+
+
+#endif //OOP_LABS_RANDOMSHOTABILITY_HPP

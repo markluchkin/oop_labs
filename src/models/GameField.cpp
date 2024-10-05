@@ -1,4 +1,4 @@
-#include "../include/GameField.hpp"
+#include "../../include/GameField.hpp"
 
 GameField::GameField()
     : GameField(10, 10) {
@@ -38,8 +38,6 @@ GameField &GameField::operator=(GameField &&other) {
     }
     return *this;
 }
-
-GameField::~GameField() = default;
 
 void GameField::createField() {
     for (int y = 0; y < height; ++y){
