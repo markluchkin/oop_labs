@@ -99,10 +99,16 @@ void GameField::attackCell(Coordinates coords) {
     CellSegment& targetCell = field[coords.y][coords.x];
 
     if (targetCell.cellState == CellState::ContainsShip && targetCell.shipSegment != nullptr){
-        targetCell.shipSegment->takeDamage();
+        try{
+            targetCell.shipSegment->takeDamage();
+        } catch (std::logic_error){
+            std::cout << "Error: Can not damage a destroyed segment.\n";
+        }
+
     } else if(targetCell.cellState == CellState::Unknown){
         targetCell.cellState = CellState::Empty;
     }
+
 }
 
 void GameField::printField() {
