@@ -46,7 +46,7 @@ void GameField::createField() {
         for (int x = 0; x < width; ++x){
             field[y][x].coords.x = x;
             field[y][x].coords.y = y;
-            field[y][x].cellState = CellState::Unknown;
+            field[y][x].cellState = CellState::Empty;
             field[y][x].shipSegment = nullptr;
         }
     }
@@ -64,9 +64,24 @@ int GameField::getWidth() const{
     return this->width;
 }
 
+void GameField::removeShip(std::shared_ptr<Ship> ship) {
+    for (int i = 0; i < ship->getSize(); ++i) {
+        auto segment = ship->getSegment(i);
+        Coordinates segmentCoords = segment->getCoordinates();
+        if (isValidCoordinates(segmentCoords)) {
+            field[segmentCoords.y][segmentCoords.x].cellState = CellState::Empty;
+            field[segmentCoords.y][segmentCoords.x].shipSegment = nullptr;
+        }
+    }
+}
+
 void GameField::placeShip(Coordinates coords, const std::shared_ptr<Ship> &ship,  Orientation orient) {
     if (ship == nullptr){
         throw std::invalid_argument("Invalid argument: nullptr was given.");
+    }
+
+    if (ship->getIsPlaced()){
+        removeShip(ship);
     }
 
     if (isPlaceAvailable(coords, ship)){
@@ -74,8 +89,12 @@ void GameField::placeShip(Coordinates coords, const std::shared_ptr<Ship> &ship,
         if (orient != ship->getOrientation()){
             ship->rotateShip();
         }
+    } else{
+        std::cout << "It is not an available place.\n";
+        return;
     }
 
+    ship->setIsPlaced();
     int shipSize = ship->getSize();
     int startX = coords.x;
     int startY = coords.y;
@@ -114,7 +133,7 @@ void GameField::attackCell(Coordinates coords) {
 void GameField::printField() {
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            char symbol = field[y][x].cellState == CellState::Empty ? '.' :
+            char symbol = field[y][x].cellState == CellState::Empty ? '~' :
                           field[y][x].cellState == CellState::ContainsShip ? 'O' : '?';
             std::cout << symbol << ' ';
         }

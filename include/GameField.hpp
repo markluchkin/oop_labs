@@ -22,6 +22,7 @@ public:
     int getHeight() const;
     int getWidth() const;
 
+    void removeShip(std::shared_ptr<Ship> ship);
     void placeShip(Coordinates coords, const std::shared_ptr<Ship> &ship, Orientation orient = Orientation::Vertical);
     void attackCell(Coordinates coords);
 

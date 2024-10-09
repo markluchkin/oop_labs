@@ -7,8 +7,6 @@
 
 enum class Orientation{Vertical, Horizontal};
 
-enum class ShipState{Intact, Damaged, Destroyed};
-
 enum class SegmentState{Intact, Damaged, Destroyed};
 
 enum class CellState{Unknown, Empty, ContainsShip};

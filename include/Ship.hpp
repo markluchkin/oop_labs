@@ -18,17 +18,18 @@ public:
 
     std::shared_ptr<ShipSegment> getSegment(int index);
 
-    void takeDamage(int index);
-    bool isDestroyed();
+    bool getIsPlaced() const;
+    void setIsPlaced();
 
     void printInfo();
+
 
 private:
     std::vector<std::shared_ptr<ShipSegment>> segments;
     int shipSize;
     Orientation orientation;
-    ShipState state;
     Coordinates coordinates;
+    bool isPlaced;
     void initializeSegments();
 };
 

@@ -11,6 +11,7 @@ int main() {
     field.placeShip({1, 1}, s[1], Orientation::Horizontal);
     field.placeShip({1, 3}, s[2], Orientation::Horizontal);
     field.placeShip({3, 8}, s[3]);
+    field.placeShip({6, 8}, s[3]);
 
     field.attackCell({5, 6});
     field.attackCell({1, 3});

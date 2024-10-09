@@ -4,7 +4,8 @@ Ship::Ship()
     : Ship(1, Orientation::Vertical, {0, 0}){}
 
 Ship::Ship(int shipSize_, Orientation orient, Coordinates coords)
-    :  shipSize(shipSize_), orientation(orient), state(ShipState::Intact), coordinates(coords){
+    :  shipSize(shipSize_), orientation(orient), coordinates(coords),
+    isPlaced(false){
     if (shipSize_ < 1 || shipSize_ > 4) {
         throw std::invalid_argument("Ship size must be: 1, 2, 3 or 4.");
     }
@@ -54,14 +55,12 @@ void Ship::initializeSegments() {
     }
 }
 
-bool Ship::isDestroyed() { // I got to add some checkState methods?
-    for (const auto& segment : segments) {
-        if (segment->getState() != SegmentState::Destroyed) {
-            return false;
-        }
-    }
-    state = ShipState::Destroyed;
-    return true;
+bool Ship::getIsPlaced() const {
+    return isPlaced;
+}
+
+void Ship::setIsPlaced(){
+    this->isPlaced = true;
 }
 
 void Ship::printInfo() {
@@ -76,6 +75,7 @@ void Ship::printInfo() {
     }
 
     std::cout << " Starting coordinates: (" << coordinates.x << ", " << coordinates.y << ")\n";
+    std::cout << " Is placed: (" << this->isPlaced << ")\n";
 
     std::cout << "Segments info:\n";
     for (int i = 0; i < shipSize; ++i) {
@@ -91,14 +91,5 @@ void Ship::printInfo() {
         } else if (segment->getState() == SegmentState::Destroyed) {
             std::cout << "Destroyed\n";
         }
-    }
-
-    std::cout << "Overall ship state: ";
-    if (state == ShipState::Intact) {
-        std::cout << "Intact\n";
-    } else if (state == ShipState::Damaged) {
-        std::cout << "Damaged\n";
-    } else if (state == ShipState::Destroyed) {
-        std::cout << "Destroyed\n";
     }
 }
