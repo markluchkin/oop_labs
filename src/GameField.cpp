@@ -44,16 +44,14 @@ GameField::~GameField() = default;
 void GameField::createField() {
     for (int y = 0; y < height; ++y){
         for (int x = 0; x < width; ++x){
-            field[y][x].coords.x = x;
-            field[y][x].coords.y = y;
             field[y][x].cellState = CellState::Empty;
             field[y][x].shipSegment = nullptr;
         }
     }
 }
 
-CellState GameField::getStateAt(Coordinates coords) const{
-    return field[coords.y][coords.x].cellState;
+CellState GameField::getStateAt(int x, int y) const{
+    return field[y][x].cellState;
 }
 
 int GameField::getHeight() const{
@@ -64,28 +62,33 @@ int GameField::getWidth() const{
     return this->width;
 }
 
-void GameField::removeShip(std::shared_ptr<Ship> ship) {
-    for (int i = 0; i < ship->getSize(); ++i) {
-        auto segment = ship->getSegment(i);
-        Coordinates segmentCoords = segment->getCoordinates();
-        if (isValidCoordinates(segmentCoords)) {
-            field[segmentCoords.y][segmentCoords.x].cellState = CellState::Empty;
-            field[segmentCoords.y][segmentCoords.x].shipSegment = nullptr;
+void GameField::removeShip(int x, int y, int shipSize, Orientation orient) {
+    for (int i = 0; i < shipSize; ++i) {
+        if (orient == Orientation::Horizontal) {
+            if (isValidCoordinates(x + i, y)) {
+                field[y][x + i].cellState = CellState::Empty;
+                field[y][x + i].shipSegment = nullptr;
+            }
+        } else {
+            if (isValidCoordinates(x, y + i)) {
+                field[y + i][x].cellState = CellState::Empty;
+                field[y + i][x].shipSegment = nullptr;
+            }
         }
     }
 }
 
-void GameField::placeShip(Coordinates coords, const std::shared_ptr<Ship> &ship,  Orientation orient) {
+
+void GameField::placeShip(int x, int y, const std::shared_ptr<Ship> &ship,  Orientation orient) {
     if (ship == nullptr){
         throw std::invalid_argument("Invalid argument: nullptr was given.");
     }
 
     if (ship->getIsPlaced()){
-        removeShip(ship);
+        removeShip(ship->getCoordinatesX(), ship->getCoordinatesY(), ship->getSize(), ship->getOrientation());
     }
 
-    if (isPlaceAvailable(coords, ship)){
-        ship->setCoordinates(coords);
+    if (isPlaceAvailable(x, y, ship)){
         if (orient != ship->getOrientation()){
             ship->rotateShip();
         }
@@ -93,11 +96,12 @@ void GameField::placeShip(Coordinates coords, const std::shared_ptr<Ship> &ship,
         std::cout << "It is not an available place.\n";
         return;
     }
-
+    ship->setCoordinates(x, y);
     ship->setIsPlaced();
+
     int shipSize = ship->getSize();
-    int startX = coords.x;
-    int startY = coords.y;
+    int startX = x;
+    int startY = y;
 
     for (int i = 0; i < shipSize; ++i) {
         if (ship->getOrientation() == Orientation::Horizontal) {
@@ -111,11 +115,11 @@ void GameField::placeShip(Coordinates coords, const std::shared_ptr<Ship> &ship,
     }
 }
 
-void GameField::attackCell(Coordinates coords) {
-    if (!isValidCoordinates(coords)) {
+void GameField::attackCell(int x, int y) {
+    if (!isValidCoordinates(x, y)) {
         throw std::out_of_range("Invalid coordinates.");
     }
-    CellSegment& targetCell = field[coords.y][coords.x];
+    CellSegment& targetCell = field[y][x];
 
     if (targetCell.cellState == CellState::ContainsShip && targetCell.shipSegment != nullptr){
         try{
@@ -141,24 +145,24 @@ void GameField::printField() {
     }
 }
 
-bool GameField::isValidCoordinates(Coordinates coords) const {
-    return coords.x < width && coords.y < height && coords.x >= 0 && coords.y >= 0;
+bool GameField::isValidCoordinates(int x, int y) const {
+    return x < width && y < height && x >= 0 && y >= 0;
 }
 
-bool GameField::isPlaceAvailable(Coordinates coords, const std::shared_ptr<Ship> &ship) const {
+bool GameField::isPlaceAvailable( int x, int y, const std::shared_ptr<Ship> &ship) const {
     int shipSize = ship->getSize();
-    int startX = coords.x > 0 ? coords.x - 1 : 0;
-    int startY = coords.y > 0 ? coords.y - 1 : 0;
-    int endX = ship->getOrientation() == Orientation::Vertical ? coords.x + 1 : coords.x + shipSize;
-    int endY = ship->getOrientation() == Orientation::Vertical ? coords.y + shipSize : coords.y + 1;
+    int startX = x > 0 ? x - 1 : 0;
+    int startY = y > 0 ? y - 1 : 0;
+    int endX = ship->getOrientation() == Orientation::Vertical ? x + 1 : x + shipSize;
+    int endY = ship->getOrientation() == Orientation::Vertical ? y + shipSize : y + 1;
 
     if (endX >= width || endY > height) {
         return false;
     }
 
-    for (int y = startY; y <= endY; ++y) {
-        for (int x = startX; x <= endX; ++x) {
-            if (!isValidCoordinates({x, y}) || getStateAt({x, y}) == CellState::ContainsShip) {
+    for (int y_ = startY; y_ <= endY; ++y_) {
+        for (int x_ = startX; x_ <= endX; ++x_) {
+            if (!isValidCoordinates(x_, y_) || getStateAt(x_, y_) == CellState::ContainsShip) {
                 return false;
             }
         }

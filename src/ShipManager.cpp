@@ -25,15 +25,6 @@ std::shared_ptr<Ship> ShipManager::getShip(int index) {
     return ships[index];
 }
 
-std::shared_ptr<Ship> ShipManager::getShipByCoords(Coordinates coords) {
-    for (auto &ship : ships){
-        if(ship->getCoordinates() == coords){
-            return ship;
-        }
-    }
-    return nullptr;
-}
-
 std::vector<std::shared_ptr<Ship>> ShipManager::getAllShips() {
     return ships;
 }

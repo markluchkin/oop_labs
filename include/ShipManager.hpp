@@ -9,7 +9,6 @@ public:
     ShipManager(std::vector<int> sizes);
 
     std::shared_ptr<Ship> getShip(int index);
-    std::shared_ptr<Ship> getShipByCoords(Coordinates coords);
     std::vector<std::shared_ptr<Ship>> getAllShips();
 
     void printShipsInfo();

@@ -6,15 +6,16 @@
 class Ship {
 public:
     Ship();
-    Ship(int shipSize_ = 1, Orientation orient = Orientation::Vertical, Coordinates coords = {0, 0});
+    Ship(int shipSize_ = 1, Orientation orient = Orientation::Vertical);
 
     int getSize() const;
 
-    void setCoordinates(const Coordinates& coords);
-    Coordinates getCoordinates() const;
-
     Orientation getOrientation() const;
     void rotateShip();
+
+    int getCoordinatesX() const;
+    int getCoordinatesY() const;
+    void setCoordinates(int x_, int y_);
 
     std::shared_ptr<ShipSegment> getSegment(int index);
 
@@ -28,9 +29,9 @@ private:
     std::vector<std::shared_ptr<ShipSegment>> segments;
     int shipSize;
     Orientation orientation;
-    Coordinates coordinates;
     bool isPlaced;
-    void initializeSegments();
+    int x;
+    int y;
 };
 
 #endif //OOP_LABS_SHIP_HPP

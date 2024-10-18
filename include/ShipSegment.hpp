@@ -13,13 +13,9 @@ public:
     void setState(SegmentState state);
     SegmentState getState() const;
 
-    void setCoordinates(const Coordinates& coords);
-    Coordinates getCoordinates() const;
-
 private:
     int hp;
     SegmentState segmentState;
-    Coordinates coordinates;
 };
 
 

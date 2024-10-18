@@ -1,7 +1,7 @@
 #include "../include/ShipSegment.hpp"
 
 ShipSegment::ShipSegment()
-    : hp(2), segmentState(SegmentState::Intact), coordinates({0, 0}) {}
+    : hp(2), segmentState(SegmentState::Intact) {}
 
 ShipSegment::~ShipSegment() = default;
 
@@ -29,12 +29,4 @@ SegmentState ShipSegment::getState() const{
 
 void ShipSegment::setState(SegmentState state) {
     this->segmentState = state;
-}
-
-void ShipSegment::setCoordinates(const Coordinates& coords) {
-    this->coordinates = coords;
-}
-
-Coordinates ShipSegment::getCoordinates() const{
-    return coordinates;
 }

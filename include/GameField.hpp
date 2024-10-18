@@ -18,18 +18,18 @@ public:
 
     void createField();
 
-    CellState getStateAt(Coordinates coords) const;
+    CellState getStateAt(int x, int y) const;
     int getHeight() const;
     int getWidth() const;
 
-    void removeShip(std::shared_ptr<Ship> ship);
-    void placeShip(Coordinates coords, const std::shared_ptr<Ship> &ship, Orientation orient = Orientation::Vertical);
-    void attackCell(Coordinates coords);
+    void removeShip(int x, int y, int shipSize, Orientation orient);
+    void placeShip(int x, int y, const std::shared_ptr<Ship> &ship, Orientation orient = Orientation::Vertical);
+    void attackCell(int x, int y);
 
     void printField();
 
-    bool isValidCoordinates(Coordinates coords) const;
-    bool isPlaceAvailable(Coordinates coords, const std::shared_ptr<Ship> &ship) const;
+    bool isValidCoordinates(int x, int y) const;
+    bool isPlaceAvailable(int x, int y, const std::shared_ptr<Ship> &ship) const;
 
 private:
     int height;

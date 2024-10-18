@@ -4,7 +4,6 @@
 #include "../include/ShipSegment.hpp"
 
 struct CellSegment{
-    Coordinates coords;
     CellState cellState;
     std::shared_ptr<ShipSegment> shipSegment;
 };

@@ -1,28 +1,23 @@
 #include "../include/Ship.hpp"
 
 Ship::Ship()
-    : Ship(1, Orientation::Vertical, {0, 0}){}
+    : Ship(1, Orientation::Vertical){}
 
-Ship::Ship(int shipSize_, Orientation orient, Coordinates coords)
-    :  shipSize(shipSize_), orientation(orient), coordinates(coords),
+Ship::Ship(int shipSize_, Orientation orient)
+    :  shipSize(shipSize_), orientation(orient),
     isPlaced(false){
-    if (shipSize_ < 1 || shipSize_ > 4) {
-        throw std::invalid_argument("Ship size must be: 1, 2, 3 or 4.");
+    if (shipSize_ < 1)
+        shipSize = 1;
+    else if (shipSize_ > 4)
+        shipSize = 4;
+
+    for (int i = 0; i < shipSize; i++){
+        segments.push_back(std::make_shared<ShipSegment>());
     }
-    initializeSegments();
 }
 
 int Ship::getSize() const {
     return this->shipSize;
-}
-
-void Ship::setCoordinates(const Coordinates &coords) {
-    this->coordinates = coords;
-    initializeSegments();
-}
-
-Coordinates Ship::getCoordinates() const {
-    return this->coordinates;
 }
 
 Orientation Ship::getOrientation() const {
@@ -31,7 +26,19 @@ Orientation Ship::getOrientation() const {
 
 void Ship::rotateShip() {
     orientation = (orientation == Orientation::Vertical) ? Orientation::Horizontal : Orientation::Vertical;
-    initializeSegments();
+}
+
+int Ship::getCoordinatesX() const {
+    return x;
+}
+
+int Ship::getCoordinatesY() const {
+    return y;
+}
+
+void Ship::setCoordinates(int x_, int y_) {
+    this->x = x_;
+    this->y = y_;
 }
 
 std::shared_ptr<ShipSegment> Ship::getSegment(int index){
@@ -40,19 +47,6 @@ std::shared_ptr<ShipSegment> Ship::getSegment(int index){
     }
 
     return segments[index];
-}
-
-void Ship::initializeSegments() {
-    segments.resize(shipSize);
-    for (int i = 0; i < shipSize; ++i) {
-        auto segment = std::make_shared<ShipSegment>();
-        if (orientation == Orientation::Horizontal) {
-            segment->setCoordinates({coordinates.x + i, coordinates.y});
-        } else if (orientation == Orientation::Vertical) {
-            segment->setCoordinates({coordinates.x, coordinates.y + i});
-        }
-        segments[i] = segment;
-    }
 }
 
 bool Ship::getIsPlaced() const {
@@ -73,15 +67,12 @@ void Ship::printInfo() {
     } else{
         std::cout << "Vertical, ";
     }
-
-    std::cout << " Starting coordinates: (" << coordinates.x << ", " << coordinates.y << ")\n";
     std::cout << " Is placed: (" << this->isPlaced << ")\n";
 
     std::cout << "Segments info:\n";
     for (int i = 0; i < shipSize; ++i) {
         auto segment = segments[i];
         std::cout << "  Segment " << i + 1 << ":"
-                  << " Coordinates: (" << segment->getCoordinates().x << ", " << segment->getCoordinates().y << ")"
                   << ", HP: " << segment->getHp()
                   << ", State: ";
         if (segment->getState() == SegmentState::Intact) {

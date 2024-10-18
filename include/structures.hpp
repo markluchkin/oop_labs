@@ -11,13 +11,13 @@ enum class SegmentState{Intact, Damaged, Destroyed};
 
 enum class CellState{Unknown, Empty, ContainsShip};
 
-struct Coordinates{
-    int x;
-    int y;
-
-    bool operator==(const Coordinates& other) const {
-        return (x == other.x && y == other.y);
-    }
-};
+//struct Coordinates{
+//    int x;
+//    int y;
+//
+//    bool operator==(const Coordinates& other) const {
+//        return (x == other.x && y == other.y);
+//    }
+//};
 
 #endif //OOP_LABS_STRUCTURES_HPP
