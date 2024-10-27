@@ -1,0 +1,10 @@
+#ifndef OOP_LABS_ABILITYINTERFACE_HPP
+#define OOP_LABS_ABILITYINTERFACE_HPP
+
+
+class AbilityInterface {
+
+};
+
+
+#endif //OOP_LABS_ABILITYINTERFACE_HPP
