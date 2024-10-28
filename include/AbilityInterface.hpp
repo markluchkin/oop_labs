@@ -3,7 +3,9 @@
 
 
 class AbilityInterface {
-
+public:
+    virtual void applyAbility();
+    virtual ~AbilityInterface() = default;
 };
 
 
