@@ -42,10 +42,6 @@ void Ship::setCoordinates(int x_, int y_) {
 }
 
 std::shared_ptr<ShipSegment> Ship::getSegment(int index){
-    if (index < 0 || index >= shipSize){
-        throw std::invalid_argument("Invalid segment index.");
-    }
-
     return segments[index];
 }
 

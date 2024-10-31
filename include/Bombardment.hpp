@@ -3,12 +3,13 @@
 
 #include "structures.hpp"
 #include "AbilityInterface.hpp"
+#include <cstdlib>
+#include <ctime>
 
 class Bombardment : public AbilityInterface {
 public:
-    Bombardment();
     ~Bombardment() = default;
-    void applyAbility() override;
+    void applyAbility(GameField &field) override;
 };
 
 

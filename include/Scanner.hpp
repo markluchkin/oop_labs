@@ -1,14 +1,13 @@
 #ifndef OOP_LABS_SCANNER_HPP
 #define OOP_LABS_SCANNER_HPP
 
-#include "structures.hpp"
 #include "AbilityInterface.hpp"
+#include "CoordsOutOfRangeError.hpp"
 
 class Scanner : public AbilityInterface{
 public:
-    Scanner();
     ~Scanner() = default;
-    void applyAbility() override;
+    void applyAbility(GameField &field) override;
 };
 
 

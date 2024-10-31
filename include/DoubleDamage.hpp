@@ -6,10 +6,8 @@
 
 class DoubleDamage : public AbilityInterface{
 public:
-    DoubleDamage();
     ~DoubleDamage() = default;
-    void applyAbility() override;
-
+    void applyAbility(GameField &field) override;
 };
 
 

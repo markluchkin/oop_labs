@@ -7,7 +7,9 @@ GameField::GameField()
 
 GameField::GameField(int height_, int width_)
     : height(height_), width(width_),
-    field(height_, std::vector<CellSegment>(width_)){
+    field(height_, std::vector<CellSegment>(width_)),
+    shipCounter(0),
+    orginalAttack(&GameField::averageAttack){
     createField();
 }
 
@@ -62,6 +64,14 @@ int GameField::getWidth() const{
     return this->width;
 }
 
+int GameField::getShipCounter() const {
+    return this->shipCounter;
+}
+
+void GameField::setDoubleDamage() {
+    orginalAttack = &GameField::doubleDamageAttack;
+}
+
 void GameField::removeShip(int x, int y, int shipSize, Orientation orient) {
     for (int i = 0; i < shipSize; ++i) {
         if (orient == Orientation::Horizontal) {
@@ -81,7 +91,7 @@ void GameField::removeShip(int x, int y, int shipSize, Orientation orient) {
 
 void GameField::placeShip(int x, int y, const std::shared_ptr<Ship> &ship,  Orientation orient) {
     if (ship == nullptr){
-        throw std::invalid_argument("Invalid argument: nullptr was given.");
+        throw PlaceShipError("Invalid argument: nullptr was given.");
     }
 
     if (ship->getIsPlaced()){
@@ -93,11 +103,12 @@ void GameField::placeShip(int x, int y, const std::shared_ptr<Ship> &ship,  Orie
             ship->rotateShip();
         }
     } else{
-        std::cout << "It is not an available place.\n";
+        std::cout << "Error: It is not an available place to place a ship.\n";
         return;
     }
     ship->setCoordinates(x, y);
     ship->setIsPlaced();
+    this->shipCounter++;
 
     int shipSize = ship->getSize();
     int startX = x;
@@ -117,17 +128,12 @@ void GameField::placeShip(int x, int y, const std::shared_ptr<Ship> &ship,  Orie
 
 void GameField::attackCell(int x, int y) {
     if (!isValidCoordinates(x, y)) {
-        throw std::out_of_range("Invalid coordinates.");
+        throw AttackError("Error: Invalid coordinates.");
     }
     CellSegment& targetCell = field[y][x];
 
     if (targetCell.cellState == CellState::ContainsShip && targetCell.shipSegment != nullptr){
-        try{
-            targetCell.shipSegment->takeDamage();
-        } catch (std::logic_error()){
-            std::cout << "Error: Can not damage a destroyed segment.\n";
-        }
-
+        (this->*orginalAttack)(targetCell.shipSegment);
     } else if(targetCell.cellState == CellState::Unknown){
         targetCell.cellState = CellState::Empty;
     }
@@ -168,4 +174,15 @@ bool GameField::isPlaceAvailable( int x, int y, const std::shared_ptr<Ship> &shi
         }
     }
     return true;
+}
+
+void GameField::averageAttack(std::shared_ptr<ShipSegment> shipSegment) {
+    shipSegment->takeDamage();
+}
+
+void GameField::doubleDamageAttack(std::shared_ptr<ShipSegment> shipSegment) {
+    shipSegment->takeDamage();
+    shipSegment->takeDamage();
+    std::cout << "Double Damage attack was performed. " << std::endl;
+    orginalAttack = &GameField::averageAttack;
 }
