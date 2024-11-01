@@ -33,7 +33,8 @@ int main() {
     manager.getShip(0)->printInfo();
 
 
-    abilityManager.useAbility(field);
+    abilityManager.useAbility(field); //DD
+
     try {
         field.attackCell(3,5);
     } catch (AttackError &error){
@@ -41,16 +42,22 @@ int main() {
     }
     manager.getShip(0)->printInfo();
 
-    abilityManager.useAbility(field);
+    abilityManager.useAbility(field); //Scanner
 
 
     try{
-        abilityManager.useAbility(field);
+        abilityManager.useAbility(field); //Bombardment
     } catch(EmptyFieldError &error){
         std::cout << error.what() << std::endl;
     }
 
     manager.printShipsInfo();
+
+    try{
+        abilityManager.useAbility(field); //NoAbility
+    } catch(NoAbilityError &error){
+        std::cout << error.what() << std::endl;
+    }
 
     return 0;
 }

@@ -28,7 +28,7 @@ void AbilityManager::addRandomAbility() {
 
 void AbilityManager::useAbility(GameField &field) {
     if (abilities.empty()) {
-        throw std::runtime_error("There is no abilities to use.");
+        throw NoAbilityError("Error: There is no abilities to use.");
     }
     auto ability = abilities.front();
     ability->applyAbility(field);

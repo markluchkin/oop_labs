@@ -103,8 +103,7 @@ void GameField::placeShip(int x, int y, const std::shared_ptr<Ship> &ship,  Orie
             ship->rotateShip();
         }
     } else{
-        std::cout << "Error: It is not an available place to place a ship.\n";
-        return;
+        throw PlaceShipError("Error: It is not an available place to place a ship.");
     }
     ship->setCoordinates(x, y);
     ship->setIsPlaced();
