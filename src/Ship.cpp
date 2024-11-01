@@ -45,6 +45,17 @@ std::shared_ptr<ShipSegment> Ship::getSegment(int index){
     return segments[index];
 }
 
+bool Ship::isDestroyed() const {
+    for (int i = 0; i < shipSize; ++i){
+        if (segments[i]->getState() == SegmentState::Intact ||
+                segments[i]->getState() == SegmentState::Damaged){
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool Ship::getIsPlaced() const {
     return isPlaced;
 }

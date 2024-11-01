@@ -19,6 +19,8 @@ public:
 
     std::shared_ptr<ShipSegment> getSegment(int index);
 
+    bool isDestroyed() const;
+
     bool getIsPlaced() const;
     void setIsPlaced();
 
