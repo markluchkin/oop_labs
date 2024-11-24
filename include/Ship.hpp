@@ -8,6 +8,7 @@ public:
     Ship();
     Ship(int shipSize_ = 1, Orientation orient = Orientation::Vertical);
 
+    void initSegments();
     int getSize() const;
 
     Orientation getOrientation() const;
