@@ -29,10 +29,13 @@ void AbilityManager::addAbility(AbilityType abilityType) {
     switch (abilityType) {
         case AbilityType::DD:
             abilities.push(std::make_shared<DoubleDamage>());
+            break;
         case AbilityType::Scan:
             abilities.push(std::make_shared<Scanner>());
+            break;
         case AbilityType::Bomb:
             abilities.push(std::make_shared<Bombardment>());
+            break;
     }
 }
 

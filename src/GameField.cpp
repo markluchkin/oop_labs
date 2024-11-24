@@ -125,17 +125,25 @@ void GameField::placeShip(int x, int y, const std::shared_ptr<Ship> &ship,  Orie
     }
 }
 
-void GameField::attackCell(int x, int y) {
+bool GameField::attackCell(int x, int y) {
+    bool destroyed = false;
     if (!isValidCoordinates(x, y)) {
         throw AttackError("Error: Invalid coordinates.");
     }
     CellSegment& targetCell = field[y][x];
-
+    auto parentShip = targetCell.shipSegment->getParentShip();
+    if (parentShip->isDestroyed()){
+        return destroyed; // already shot at this cell and destroyed the ship
+    }
     if (targetCell.cellState == CellState::ContainsShip && targetCell.shipSegment != nullptr){
         (this->*orginalAttack)(targetCell.shipSegment);
+        if (parentShip->isDestroyed()) {
+            destroyed = true;
+        }
     } else if(targetCell.cellState == CellState::Unknown){
         targetCell.cellState = CellState::Empty;
     }
+    return destroyed;
 }
 
 void GameField::printField() {

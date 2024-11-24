@@ -1,7 +1,7 @@
 #include "../include/Scanner.hpp"
 
 void Scanner::applyAbility(GameField &field, std::optional<int>x, std::optional<int>y) {
-    std::cout << "Bombardment is applying." << std::endl;
+    std::cout << "Scanner is applying." << std::endl;
     if (!x || !y) {
         throw std::invalid_argument("Scanner ability requires a coordinate!");
     }
