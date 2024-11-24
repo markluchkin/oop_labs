@@ -14,6 +14,8 @@ enum class SegmentState{Intact, Damaged, Destroyed};
 
 enum class CellState{Unknown, Empty, ContainsShip};
 
+enum class AbilityType{DD, Scan, Bomb};
+
 //struct Coordinates{
 //    int x;
 //    int y;

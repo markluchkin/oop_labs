@@ -9,6 +9,7 @@ class AbilityInterface {
 public:
     virtual ~AbilityInterface() = default;
     virtual void applyAbility(GameField &field) = 0;
+    virtual AbilityType getAbilityType() = 0;
 };
 
 

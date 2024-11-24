@@ -1,10 +1,7 @@
 #include "../include/Scanner.hpp"
 
 void Scanner::applyAbility(GameField &field) {
-    int x, y;
     std::cout << "Bombardment is applying." << std::endl;
-    std::cout << "Enter coordinates to scan the area around (x, y):\n";
-    std::cin >> x >> y;
 
     bool found = false;
     for (int dx = -1; dx <= 0; ++dx){
@@ -18,4 +15,8 @@ void Scanner::applyAbility(GameField &field) {
     }
 
     std::cout << (found ? "Found a ship segment!" : "Ship segment was not found. ") << std::endl;
+}
+
+AbilityType Scanner::getAbilityType() {
+    return AbilityType::Scan;
 }

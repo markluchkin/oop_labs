@@ -10,6 +10,7 @@ class Bombardment : public AbilityInterface {
 public:
     ~Bombardment() = default;
     void applyAbility(GameField &field) override;
+    AbilityType getAbilityType() override;
 };
 
 

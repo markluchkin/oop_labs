@@ -17,3 +17,7 @@ void Bombardment::applyAbility(GameField &field) {
         }
     }
 }
+
+AbilityType Bombardment::getAbilityType() {
+    return AbilityType::Bomb;
+}

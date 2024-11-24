@@ -5,3 +5,6 @@ void DoubleDamage::applyAbility(GameField &field) {
     field.setDoubleDamage();
 }
 
+AbilityType DoubleDamage::getAbilityType() {
+    return AbilityType::DD;
+}

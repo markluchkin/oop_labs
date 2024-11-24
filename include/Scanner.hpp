@@ -8,6 +8,10 @@ class Scanner : public AbilityInterface{
 public:
     ~Scanner() = default;
     void applyAbility(GameField &field) override;
+    AbilityType getAbilityType() override;
+private:
+    int x;
+    int y;
 };
 
 
