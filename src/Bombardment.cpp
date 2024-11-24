@@ -1,6 +1,6 @@
 #include "../include/Bombardment.hpp"
 
-void Bombardment::applyAbility(GameField &field) {
+void Bombardment::applyAbility(GameField &field, std::optional<int>x, std::optional<int>y) {
     std::cout << "Bombardment is applying." << std::endl;
     if (field.getShipCounter() == 0){
         throw EmptyFieldError("Error: The is empty.");

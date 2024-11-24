@@ -1,13 +1,16 @@
 #include "../include/Scanner.hpp"
 
-void Scanner::applyAbility(GameField &field) {
+void Scanner::applyAbility(GameField &field, std::optional<int>x, std::optional<int>y) {
     std::cout << "Bombardment is applying." << std::endl;
+    if (!x || !y) {
+        throw std::invalid_argument("Scanner ability requires a coordinate!");
+    }
 
     bool found = false;
     for (int dx = -1; dx <= 0; ++dx){
         for (int dy = -1; dy <= 0; ++dy){
-            if (field.isValidCoordinates(x, y) &&
-            field.getStateAt(x + dx, y + dy) == CellState::ContainsShip){
+            if (field.isValidCoordinates(x.value(), y.value()) &&
+            field.getStateAt(x.value() + dx, y.value() + dy) == CellState::ContainsShip){
                 found = true;
                 break;
             }

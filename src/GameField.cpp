@@ -136,7 +136,6 @@ void GameField::attackCell(int x, int y) {
     } else if(targetCell.cellState == CellState::Unknown){
         targetCell.cellState = CellState::Empty;
     }
-
 }
 
 void GameField::printField() {
