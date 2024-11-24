@@ -8,7 +8,6 @@ AbilityManager::AbilityManager(bool AllAbilitiesInclude) {
     } else {
         addRandomAbility();
     }
-
 }
 
 void AbilityManager::addRandomAbility() {
