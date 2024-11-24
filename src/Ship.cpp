@@ -12,7 +12,7 @@ Ship::Ship(int shipSize_, Orientation orient)
         shipSize = 4;
 
     for (int i = 0; i < shipSize; i++){
-        segments.push_back(std::make_shared<ShipSegment>());
+        segments.push_back(std::make_shared<ShipSegment>(shared_from_this()));
     }
 }
 
@@ -47,8 +47,7 @@ std::shared_ptr<ShipSegment> Ship::getSegment(int index){
 
 bool Ship::isDestroyed() const {
     for (int i = 0; i < shipSize; ++i){
-        if (segments[i]->getState() == SegmentState::Intact ||
-                segments[i]->getState() == SegmentState::Damaged){
+        if (segments[i]->getHp() > 0){
             return false;
         }
     }

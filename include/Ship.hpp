@@ -3,7 +3,7 @@
 
 #include "../include/ShipSegment.hpp"
 
-class Ship {
+class Ship : public std::enable_shared_from_this<Ship>{
 public:
     Ship();
     Ship(int shipSize_ = 1, Orientation orient = Orientation::Vertical);
