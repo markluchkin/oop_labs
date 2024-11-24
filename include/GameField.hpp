@@ -4,7 +4,6 @@
 
 #include "../include/Ship.hpp"
 #include "../include/CellSegment.hpp"
-#include "../include/ShipSegment.hpp"
 
 
 class GameField {
