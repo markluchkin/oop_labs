@@ -4,7 +4,6 @@
 
 #include "../include/Ship.hpp"
 #include "../include/CellSegment.hpp"
-#include "../include/ShipSegment.hpp"
 
 
 class GameField {
@@ -28,7 +27,7 @@ public:
 
     void removeShip(int x, int y, int shipSize, Orientation orient);
     void placeShip(int x, int y, const std::shared_ptr<Ship> &ship, Orientation orient = Orientation::Vertical);
-    void attackCell(int x, int y);
+    bool attackCell(int x, int y); // true if destroys a ship
 
     void printField();
 

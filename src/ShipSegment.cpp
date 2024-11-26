@@ -1,7 +1,7 @@
 #include "../include/ShipSegment.hpp"
 
-ShipSegment::ShipSegment()
-    : hp(2), segmentState(SegmentState::Intact) {}
+ShipSegment::ShipSegment(std::shared_ptr<Ship> parentShip_)
+    : hp(2), segmentState(SegmentState::Intact), parentShip(parentShip_) {}
 
 ShipSegment::~ShipSegment() = default;
 
@@ -29,4 +29,8 @@ SegmentState ShipSegment::getState() const{
 
 void ShipSegment::setState(SegmentState state) {
     this->segmentState = state;
+}
+
+std::shared_ptr<Ship> ShipSegment::getParentShip() const {
+    return parentShip;
 }

@@ -9,7 +9,8 @@
 class Bombardment : public AbilityInterface {
 public:
     ~Bombardment() = default;
-    void applyAbility(GameField &field) override;
+    void applyAbility(GameField &field, std::optional<int>x=std::nullopt, std::optional<int>y=std::nullopt) override;
+    AbilityType getAbilityType() override;
 };
 
 

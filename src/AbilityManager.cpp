@@ -8,7 +8,6 @@ AbilityManager::AbilityManager(bool AllAbilitiesInclude) {
     } else {
         addRandomAbility();
     }
-
 }
 
 void AbilityManager::addRandomAbility() {
@@ -26,11 +25,25 @@ void AbilityManager::addRandomAbility() {
     }
 }
 
-void AbilityManager::useAbility(GameField &field) {
+void AbilityManager::addAbility(AbilityType abilityType) {
+    switch (abilityType) {
+        case AbilityType::DD:
+            abilities.push(std::make_shared<DoubleDamage>());
+            break;
+        case AbilityType::Scan:
+            abilities.push(std::make_shared<Scanner>());
+            break;
+        case AbilityType::Bomb:
+            abilities.push(std::make_shared<Bombardment>());
+            break;
+    }
+}
+
+void AbilityManager::useAbility(GameField &field, std::optional<int>x, std::optional<int>y) {
     if (abilities.empty()) {
         throw NoAbilityError("Error: There is no abilities to use.");
     }
     auto ability = abilities.front();
-    ability->applyAbility(field);
+    ability->applyAbility(field, x, y);
     abilities.pop();
 }

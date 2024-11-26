@@ -22,15 +22,15 @@ int main() {
     }
     field.printField();
 
-    try {
-        field.attackCell(3, 3);
-        field.attackCell(3, 3);
-        field.attackCell(3, 4);
-        field.attackCell(10, 9);
-    } catch (AttackError &error){
-        std::cout << error.what() << std::endl;
-    }
-    manager.getShip(0)->printInfo();
+//    try {
+//        field.attackCell(3, 3);
+//        field.attackCell(3, 3);
+//        field.attackCell(3, 4);
+//        field.attackCell(10, 9);
+//    } catch (AttackError &error){
+//        std::cout << error.what() << std::endl;
+//    }
+    //manager.getShip(0)->printInfo();
 
 
     abilityManager.useAbility(field); //DD
@@ -42,7 +42,7 @@ int main() {
     }
     manager.getShip(0)->printInfo();
 
-    abilityManager.useAbility(field); //Scanner
+    abilityManager.useAbility(field, 1, 2); //Scanner
 
 
     try{
