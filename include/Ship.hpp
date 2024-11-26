@@ -1,37 +1,39 @@
 #ifndef OOP_LABS_SHIP_HPP
 #define OOP_LABS_SHIP_HPP
 
-#include "../include/structures.hpp"
-#include <vector>
-#include <iostream>
+#include "../include/ShipSegment.hpp"
 
 class Ship {
 public:
     Ship();
-    explicit Ship(int shipSize_ = 1, Orientation orient = Orientation::Vertical, Coordinates coords = {0, 0});
+    Ship(int shipSize_ = 1, Orientation orient = Orientation::Vertical);
 
     int getSize() const;
-
-    void setCoordinates(const Coordinates& coords);
-    Coordinates getCoordinates() const;
 
     Orientation getOrientation() const;
     void rotateShip();
 
-    const ShipSegment& getSegment(int index) const;
+    int getCoordinatesX() const;
+    int getCoordinatesY() const;
+    void setCoordinates(int x_, int y_);
 
-    void takeDamage(int index);
-    bool isDestroyed();
+    std::shared_ptr<ShipSegment> getSegment(int index);
+
+    bool isDestroyed() const;
+
+    bool getIsPlaced() const;
+    void setIsPlaced();
 
     void printInfo();
 
-    std::vector<ShipSegment> segments;
+
 private:
+    std::vector<std::shared_ptr<ShipSegment>> segments;
     int shipSize;
     Orientation orientation;
-    ShipState state;
-    Coordinates coordinates;
-    void initializeSegments();
+    bool isPlaced;
+    int x;
+    int y;
 };
 
 #endif //OOP_LABS_SHIP_HPP

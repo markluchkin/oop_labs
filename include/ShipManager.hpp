@@ -2,15 +2,13 @@
 #define OOP_LABS_SHIPMANAGER_HPP
 
 #include "../include/Ship.hpp"
-#include <memory>
 
 class ShipManager {
 public:
     ShipManager();
-    explicit ShipManager(std::vector<int> sizes);
+    ShipManager(std::vector<int> sizes);
 
     std::shared_ptr<Ship> getShip(int index);
-    std::shared_ptr<Ship> getShipByCoords(Coordinates coords);
     std::vector<std::shared_ptr<Ship>> getAllShips();
 
     void printShipsInfo();

@@ -1,16 +1,17 @@
 #ifndef OOP_LABS_GAMEFIELD_HPP
 #define OOP_LABS_GAMEFIELD_HPP
 
-#include <memory>
-#include "../include/structures.hpp"
+
 #include "../include/Ship.hpp"
 #include "../include/CellSegment.hpp"
+#include "../include/ShipSegment.hpp"
+
 
 class GameField {
 public:
     GameField();
-    explicit GameField(int height_, int width_);
-    explicit GameField(const GameField& other);
+    GameField(int height_, int width_);
+    GameField(const GameField& other);
     GameField(GameField &&other);
     GameField &operator=(const GameField &other);
     GameField &operator=(GameField &&other);
@@ -18,22 +19,31 @@ public:
 
     void createField();
 
-    CellState getStateAt(Coordinates coords) const;
+    CellState getStateAt(int x, int y) const;
     int getHeight() const;
     int getWidth() const;
+    int getShipCounter() const;
 
-    void placeShip(Coordinates coords, std::shared_ptr<Ship> &ship, Orientation orient = Orientation::Vertical);
-    void attackCell(Coordinates coords);
+    void setDoubleDamage();
+
+    void removeShip(int x, int y, int shipSize, Orientation orient);
+    void placeShip(int x, int y, const std::shared_ptr<Ship> &ship, Orientation orient = Orientation::Vertical);
+    void attackCell(int x, int y);
 
     void printField();
 
-    bool isValidCoordinates(Coordinates coords) const;
-    bool isPlaceAvailable(Coordinates coords, std::shared_ptr<Ship> &ship) const;
+    bool isValidCoordinates(int x, int y) const;
+    bool isPlaceAvailable(int x, int y, const std::shared_ptr<Ship> &ship) const;
 
 private:
     int height;
     int width;
     std::vector<std::vector<CellSegment>> field;
+    int shipCounter;
+    using AttackFunction = void (GameField::*)(std::shared_ptr<ShipSegment> shipSegment);
+    AttackFunction orginalAttack;
+    void doubleDamageAttack(std::shared_ptr<ShipSegment> shipSegment);
+    void averageAttack(std::shared_ptr<ShipSegment> shipSegment);
 };
 
 #endif //OOP_LABS_GAMEFIELD_HPP

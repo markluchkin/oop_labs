@@ -1,27 +1,23 @@
 #include "../include/Ship.hpp"
 
 Ship::Ship()
-    : Ship(1, Orientation::Vertical, {0, 0}){}
+    : Ship(1, Orientation::Vertical){}
 
-Ship::Ship(int shipSize_, Orientation orient, Coordinates coords)
-    :  shipSize(shipSize_), orientation(orient), state(ShipState::Intact), coordinates(coords){
-    if (shipSize_ < 1 || shipSize_ > 4) {
-        throw std::invalid_argument("Ship size must be: 1, 2, 3 or 4.");
+Ship::Ship(int shipSize_, Orientation orient)
+    :  shipSize(shipSize_), orientation(orient),
+    isPlaced(false){
+    if (shipSize_ < 1)
+        shipSize = 1;
+    else if (shipSize_ > 4)
+        shipSize = 4;
+
+    for (int i = 0; i < shipSize; i++){
+        segments.push_back(std::make_shared<ShipSegment>());
     }
-    initializeSegments();
 }
 
 int Ship::getSize() const {
     return this->shipSize;
-}
-
-void Ship::setCoordinates(const Coordinates &coords) {
-    this->coordinates = coords;
-    initializeSegments();
-}
-
-Coordinates Ship::getCoordinates() const {
-    return this->coordinates;
 }
 
 Orientation Ship::getOrientation() const {
@@ -30,55 +26,42 @@ Orientation Ship::getOrientation() const {
 
 void Ship::rotateShip() {
     orientation = (orientation == Orientation::Vertical) ? Orientation::Horizontal : Orientation::Vertical;
-    initializeSegments();
 }
 
-const ShipSegment& Ship::getSegment(int index) const{
-    if (index < 1 || index > shipSize){
-        throw std::invalid_argument("Invalid segment index.");
-    }
+int Ship::getCoordinatesX() const {
+    return x;
+}
+
+int Ship::getCoordinatesY() const {
+    return y;
+}
+
+void Ship::setCoordinates(int x_, int y_) {
+    this->x = x_;
+    this->y = y_;
+}
+
+std::shared_ptr<ShipSegment> Ship::getSegment(int index){
     return segments[index];
 }
 
-void Ship::initializeSegments() {
-    segments.resize(shipSize);
-    for (int i = 0; i < shipSize; ++i) {
-        segments[i].hp = 2;
-        segments[i].segmentState = SegmentState::Intact;
-        if (orientation == Orientation::Horizontal) {
-            segments[i].coordinates = {coordinates.x + i, coordinates.y};
-        } else if (orientation == Orientation::Vertical) {
-            segments[i].coordinates = {coordinates.x, coordinates.y + i};
-        }
-    }
-}
-
-void Ship::takeDamage(int index) {
-    ShipSegment &segment = segments[index];
-
-    if (segment.segmentState == SegmentState::Destroyed){
-        throw std::logic_error("Can not damage a destroyed segment.");
-    }
-
-    segment.hp--;
-
-    if (segment.hp == 1){
-        segment.segmentState = SegmentState::Damaged;
-    } else if (segment.hp == 0){
-        segment.segmentState = SegmentState::Destroyed;
-    }
-
-    isDestroyed();
-}
-
-bool Ship::isDestroyed() {
-    for (const auto& segment : segments) {
-        if (segment.segmentState != SegmentState::Destroyed) {
+bool Ship::isDestroyed() const {
+    for (int i = 0; i < shipSize; ++i){
+        if (segments[i]->getState() == SegmentState::Intact ||
+                segments[i]->getState() == SegmentState::Damaged){
             return false;
         }
     }
-    state = ShipState::Destroyed;
+
     return true;
+}
+
+bool Ship::getIsPlaced() const {
+    return isPlaced;
+}
+
+void Ship::setIsPlaced(){
+    this->isPlaced = true;
 }
 
 void Ship::printInfo() {
@@ -91,31 +74,20 @@ void Ship::printInfo() {
     } else{
         std::cout << "Vertical, ";
     }
-
-    std::cout << " Starting coordinates: (" << coordinates.x << ", " << coordinates.y << ")\n";
+    std::cout << " Is placed: (" << this->isPlaced << ")\n";
 
     std::cout << "Segments info:\n";
     for (int i = 0; i < shipSize; ++i) {
-        const ShipSegment &segment = segments[i];
+        auto segment = segments[i];
         std::cout << "  Segment " << i + 1 << ":"
-                  << " Coordinates: (" << segment.coordinates.x << ", " << segment.coordinates.y << ")"
-                  << ", HP: " << segment.hp
+                  << ", HP: " << segment->getHp()
                   << ", State: ";
-        if (segment.segmentState == SegmentState::Intact) {
+        if (segment->getState() == SegmentState::Intact) {
             std::cout << "Intact\n";
-        } else if (segment.segmentState == SegmentState::Damaged) {
+        } else if (segment->getState() == SegmentState::Damaged) {
             std::cout << "Damaged\n";
-        } else if (segment.segmentState == SegmentState::Destroyed) {
+        } else if (segment->getState() == SegmentState::Destroyed) {
             std::cout << "Destroyed\n";
         }
-    }
-
-    std::cout << "Overall ship state: ";
-    if (state == ShipState::Intact) {
-        std::cout << "Intact\n";
-    } else if (state == ShipState::Damaged) {
-        std::cout << "Damaged\n";
-    } else if (state == ShipState::Destroyed) {
-        std::cout << "Destroyed\n";
     }
 }
