@@ -2,7 +2,6 @@
 #define OOP_LABS_ABILITYMANAGER_HPP
 
 #include "DoubleDamage.hpp"
-#include "NoAbilityError.hpp"
 #include "Scanner.hpp"
 #include "Bombardment.hpp"
 #include "structures.hpp"
