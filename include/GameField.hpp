@@ -1,10 +1,9 @@
 #ifndef OOP_LABS_GAMEFIELD_HPP
 #define OOP_LABS_GAMEFIELD_HPP
 
-
-#include "../include/Ship.hpp"
-#include "../include/CellSegment.hpp"
-
+#include "Ship.hpp"
+#include "CellSegment.hpp"
+#include "Errors.hpp"
 
 class GameField {
 public:

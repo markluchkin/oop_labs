@@ -4,9 +4,6 @@
 #include <memory>
 #include <iostream>
 #include <vector>
-#include "PlaceShipError.hpp"
-#include "AttackCellError.hpp"
-#include "EmptyFieldError.hpp"
 
 enum class Orientation{Vertical, Horizontal};
 

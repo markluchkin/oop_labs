@@ -2,7 +2,6 @@
 #define OOP_LABS_SCANNER_HPP
 
 #include "AbilityInterface.hpp"
-#include "CoordsOutOfRangeError.hpp"
 
 class Scanner : public AbilityInterface{
 public:
