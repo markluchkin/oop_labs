@@ -5,7 +5,7 @@
 
 class ShipManager {
 public:
-    ShipManager();
+    ShipManager() = default;
     ShipManager(std::vector<int> sizes);
 
     std::shared_ptr<Ship> getShip(int index);

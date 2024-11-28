@@ -1,7 +1,7 @@
 #include "../include/GameState.hpp"
 
 GameState::GameState(int width, int height, std::vector<int> shipSizes)
-        : fieldWidth(width), fieldHeight(height), sizes(shipSizes), roundNumber(0),
+        : fieldWidth(width), fieldHeight(height), sizes(shipSizes), roundNumber(1),
           destroyedUserShipsNum(0), destroyedEnemyShipsNum(0)
 {
     shipsNum = static_cast<int>(shipSizes.size());
@@ -109,7 +109,7 @@ std::ostream &operator<<(std::ostream &out, const GameState& state){
 
     out << "Номер раунда / количества уничтоженных кораблей\n";
     out << std::to_string(state.roundNumber) + " ";
-    out << std::to_string(state.destroyedUserShipsNum) + " " + std::to_string(state.destroyedEnemyShipsNum);
+    out << std::to_string(state.destroyedUserShipsNum) + " " + std::to_string(state.destroyedEnemyShipsNum) + "\n";
 
     out << "Корабли пользователя\n";
     for (int i = 0; i < state.getShipsNum(); ++i){
@@ -141,9 +141,6 @@ std::istream &operator>>(std::istream &in, GameState& state){
     state.setEnemyGameField(std::make_shared<GameField>(h, w));
     state.setShipsNum(shipNum);
 
-    state.setUserGameField(std::make_shared<GameField>(h, w));
-    state.setEnemyGameField(std::make_shared<GameField>(h, w));
-
     while (std::getline(in, line) && line != "Номер раунда / количества уничтоженных кораблей") {}
     int num1, num2, num3;
     in >> num1 >> num2 >> num3;
@@ -152,7 +149,7 @@ std::istream &operator>>(std::istream &in, GameState& state){
     state.destroyedEnemyShipsNum = num3;
     while (std::getline(in, line) && line != "Корабли пользователя") {}
 
-    std::shared_ptr<ShipManager> tempUserShips;
+    std::shared_ptr<ShipManager> tempUserShips = std::make_shared<ShipManager>();
     std::vector<int> sizes;
     for (int i = 0; i < shipNum; ++i){
         std::getline(in, line);
@@ -164,17 +161,19 @@ std::istream &operator>>(std::istream &in, GameState& state){
 
         auto tempShip = std::make_shared<Ship>(std::stoi(splitLine[0]));
         tempShip->setOrientation(orientation);
-        for (int j = 0; i < tempShip->getSize(); ++j){
+        tempShip->setCoordinates(std::stoi(splitLine[splitLine.size() - 3]), std::stoi(splitLine[splitLine.size() - 2]));
+        tempShip->initSegments();
+        for (int j = 0; j < tempShip->getSize(); ++j){
             int s = std::stoi(splitLine[1 + j]);
             switch (s) {
                 case 0:
-                    tempShip->setSegmentStatus(std::stoi(splitLine[1 + j]), SegmentState::Destroyed);
+                    tempShip->setSegmentStatus(j, SegmentState::Destroyed);
                     break;
                 case 1:
-                    tempShip->setSegmentStatus(std::stoi(splitLine[1 + j]), SegmentState::Damaged);
+                    tempShip->setSegmentStatus(j, SegmentState::Damaged);
                     break;
                 case 2:
-                    tempShip->setSegmentStatus(std::stoi(splitLine[1 + j]), SegmentState::Intact);
+                    tempShip->setSegmentStatus(j, SegmentState::Intact);
                     break;
             }
 
@@ -190,7 +189,7 @@ std::istream &operator>>(std::istream &in, GameState& state){
     }
 
     while (std::getline(in, line) && line != "Корабли противника") {}
-    std::shared_ptr<ShipManager> tempEnemyShips;
+    std::shared_ptr<ShipManager> tempEnemyShips = std::make_shared<ShipManager>();
     for (int i = 0; i < shipNum; ++i){
         std::getline(in, line);
         auto splitLine = state.splitString(line);
@@ -199,17 +198,19 @@ std::istream &operator>>(std::istream &in, GameState& state){
 
         auto tempShip = std::make_shared<Ship>(std::stoi(splitLine[0]));
         tempShip->setOrientation(orientation);
-        for (int j = 0; i < tempShip->getSize(); ++j){
+        tempShip->setCoordinates(std::stoi(splitLine[splitLine.size() - 3]), std::stoi(splitLine[splitLine.size() - 2]));
+        tempShip->initSegments();
+        for (int j = 0; j < tempShip->getSize(); ++j){
             int s = std::stoi(splitLine[1 + j]);
             switch (s) {
                 case 0:
-                    tempShip->setSegmentStatus(std::stoi(splitLine[1 + j]), SegmentState::Destroyed);
+                    tempShip->setSegmentStatus(j, SegmentState::Destroyed);
                     break;
                 case 1:
-                    tempShip->setSegmentStatus(std::stoi(splitLine[1 + j]), SegmentState::Damaged);
+                    tempShip->setSegmentStatus(j, SegmentState::Damaged);
                     break;
                 case 2:
-                    tempShip->setSegmentStatus(std::stoi(splitLine[1 + j]), SegmentState::Intact);
+                    tempShip->setSegmentStatus(j, SegmentState::Intact);
                     break;
             }
 

@@ -1,9 +1,5 @@
 #include "../include/ShipManager.hpp"
 
-ShipManager::ShipManager(){
-    createDefaultSetOfShips();
-}
-
 ShipManager::ShipManager(std::vector<int> sizes) {
     for (int j = 0; j < static_cast<int>(size(sizes)); j++) {
         addShip(std::make_shared<Ship>(sizes[j]));

@@ -5,8 +5,7 @@ Ship::Ship()
 
 Ship::Ship(int shipSize_, Orientation orient)
     :  shipSize(shipSize_), orientation(orient),
-    isPlaced(false){
-}
+    isPlaced(false){}
 
 void Ship::initSegments() {
     for (int i = 0; i < shipSize; i++) {
