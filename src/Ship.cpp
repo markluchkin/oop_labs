@@ -5,17 +5,7 @@ Ship::Ship()
 
 Ship::Ship(int shipSize_, Orientation orient)
     :  shipSize(shipSize_), orientation(orient),
-    isPlaced(false){
-    if (shipSize_ < 1)
-        shipSize = 1;
-    else if (shipSize_ > 4)
-        shipSize = 4;
-
-//    for (int i = 0; i < shipSize; i++){
-//        segments.push_back(std::make_shared<ShipSegment>(shared_from_this()));
-//    }
-//    initSegments();
-}
+    isPlaced(false){}
 
 void Ship::initSegments() {
     for (int i = 0; i < shipSize; i++) {

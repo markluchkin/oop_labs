@@ -88,7 +88,6 @@ void GameField::removeShip(int x, int y, int shipSize, Orientation orient) {
     }
 }
 
-
 void GameField::placeShip(int x, int y, const std::shared_ptr<Ship> &ship,  Orientation orient) {
     if (ship == nullptr){
         throw PlaceShipError("Invalid argument: nullptr was given.");
@@ -130,28 +129,55 @@ bool GameField::attackCell(int x, int y) {
     if (!isValidCoordinates(x, y)) {
         throw AttackError("Error: Invalid coordinates.");
     }
+
     CellSegment& targetCell = field[y][x];
-    auto parentShip = targetCell.shipSegment->getParentShip();
-    if (parentShip->isDestroyed()){
-        return destroyed; // already shot at this cell and destroyed the ship
+
+    if (targetCell.cellState == CellState::Empty){
+        orginalAttack = &GameField::averageAttack;
+        return destroyed;
     }
-    if (targetCell.cellState == CellState::ContainsShip && targetCell.shipSegment != nullptr){
+    if (targetCell.shipSegment != nullptr) {
+        auto parentShip = targetCell.shipSegment->getParentShip();
+        if (parentShip->isDestroyed()) {
+            orginalAttack = &GameField::averageAttack;
+            return destroyed; // already shot at this cell and destroyed the ship
+        }
+
         (this->*orginalAttack)(targetCell.shipSegment);
+
         if (parentShip->isDestroyed()) {
             destroyed = true;
         }
-    } else if(targetCell.cellState == CellState::Unknown){
-        targetCell.cellState = CellState::Empty;
+    } else {
+        throw AttackError("Error: Nullptr was given.");
     }
+
+    orginalAttack = &GameField::averageAttack;
     return destroyed;
 }
 
-void GameField::printField() {
+void GameField::printField(bool isEnemyField) {
+    if (isEnemyField){
+        std::cout << "============= Поле противника =============\n";
+    } else{
+        std::cout << "================ Ваше поле ================\n";
+    }
+    std::cout << "  ";
+    for (int x = 0; x < width; ++x){
+        std::cout << x << " ";
+    }
+    std::cout << std::endl;
+
     for (int y = 0; y < height; ++y) {
+        std::cout << y << " ";
         for (int x = 0; x < width; ++x) {
-            char symbol = field[y][x].cellState == CellState::Empty ? '~' :
-                          field[y][x].cellState == CellState::ContainsShip ? 'O' : '?';
-            std::cout << symbol << ' ';
+            char symbol;
+            if (field[y][x].cellState == CellState::Empty){
+                symbol = '~';
+            } else {
+                symbol = '0';
+            }
+            std::cout << symbol << " ";
         }
         std::cout << std::endl;
     }
@@ -161,19 +187,20 @@ bool GameField::isValidCoordinates(int x, int y) const {
     return x < width && y < height && x >= 0 && y >= 0;
 }
 
-bool GameField::isPlaceAvailable( int x, int y, const std::shared_ptr<Ship> &ship) const {
+bool GameField::isPlaceAvailable(int x, int y, const std::shared_ptr<Ship> &ship) const {
     int shipSize = ship->getSize();
     int startX = x > 0 ? x - 1 : 0;
     int startY = y > 0 ? y - 1 : 0;
+
     int endX = ship->getOrientation() == Orientation::Vertical ? x + 1 : x + shipSize;
     int endY = ship->getOrientation() == Orientation::Vertical ? y + shipSize : y + 1;
 
-    if (endX >= width || endY > height) {
+    if (endX > width || endY > height) {
         return false;
     }
 
-    for (int y_ = startY; y_ <= endY; ++y_) {
-        for (int x_ = startX; x_ <= endX; ++x_) {
+    for (int y_ = startY; y_ < endY; ++y_) {
+        for (int x_ = startX; x_ < endX; ++x_) {
             if (!isValidCoordinates(x_, y_) || getStateAt(x_, y_) == CellState::ContainsShip) {
                 return false;
             }
@@ -190,5 +217,4 @@ void GameField::doubleDamageAttack(std::shared_ptr<ShipSegment> shipSegment) {
     shipSegment->takeDamage();
     shipSegment->takeDamage();
     std::cout << "Double Damage attack was performed. " << std::endl;
-    orginalAttack = &GameField::averageAttack;
 }

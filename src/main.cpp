@@ -2,12 +2,13 @@
 
 int main() {
     // TODO:
-    // drawer
+    // drawer | done
     // gameLoop
-    // main
+    // rounds
     // saves
-    // attack actions
-
+    // attack actions | done
+    Game game;
+    game.startNewGame();
     return 0;
 }
 

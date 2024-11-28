@@ -5,15 +5,16 @@
 #include "Scanner.hpp"
 #include "Bombardment.hpp"
 #include "structures.hpp"
-#include <queue>
 
 class AbilityManager {
 public:
-    AbilityManager(bool AllAbilitiesInclude=false);
+    AbilityManager();
     void addRandomAbility();
     void addAbility(AbilityType abilityType);
-    void useAbility(GameField &field, std::optional<int>x=std::nullopt, std::optional<int>y=std::nullopt);
+    void useAbility(std::shared_ptr<GameField> field, std::optional<int>x=std::nullopt, std::optional<int>y=std::nullopt);
+    AbilityType getFrontAbilityType() const;
     ~AbilityManager() = default;
+    bool isEmpty();
 private:
     std::queue<std::shared_ptr<AbilityInterface>> abilities;
 };

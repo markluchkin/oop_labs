@@ -1,7 +1,6 @@
 #ifndef OOP_LABS_ERRORS_HPP
 #define OOP_LABS_ERRORS_HPP
 
-#include <iostream>
 #include "structures.hpp"
 
 class AttackError : public std::runtime_error{

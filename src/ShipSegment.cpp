@@ -1,7 +1,9 @@
 #include "../include/ShipSegment.hpp"
 
 ShipSegment::ShipSegment(std::shared_ptr<Ship> parentShip_)
-    : hp(2), segmentState(SegmentState::Intact), parentShip(parentShip_) {}
+    : hp(2), segmentState(SegmentState::Intact), parentShip(parentShip_) {
+    //std::cout << "ShipSegment created, parentShip: " << (parentShip ? "valid" : "null") << std::endl;
+}
 
 ShipSegment::~ShipSegment() = default;
 
@@ -11,11 +13,9 @@ int ShipSegment::getHp() const{
 
 void ShipSegment::takeDamage() {
     if (segmentState == SegmentState::Destroyed){
-        throw std::logic_error("Can not damage a destroyed segment.");
+        return;
     }
-
     hp--;
-
     if (hp == 1){
         segmentState = SegmentState::Damaged;
     } else if(hp == 0){

@@ -1,12 +1,16 @@
 #include "../include/AbilityManager.hpp"
 
-AbilityManager::AbilityManager(bool AllAbilitiesInclude) {
-    if (AllAbilitiesInclude){
-        abilities.push(std::make_shared<DoubleDamage>());
-        abilities.push(std::make_shared<Scanner>());
-        abilities.push(std::make_shared<Bombardment>());
-    } else {
-        addRandomAbility();
+AbilityManager::AbilityManager() {
+    std::vector<std::shared_ptr<AbilityInterface>> abilitiesSet;
+    abilitiesSet.push_back(std::make_shared<DoubleDamage>());
+    abilitiesSet.push_back(std::make_shared<Scanner>());
+    abilitiesSet.push_back(std::make_shared<Bombardment>());
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    auto range = std::default_random_engine(seed);
+    std::shuffle(abilitiesSet.begin(), abilitiesSet.end(), range);
+
+    for (auto ability : abilitiesSet){
+        abilities.push(ability);
     }
 }
 
@@ -39,11 +43,19 @@ void AbilityManager::addAbility(AbilityType abilityType) {
     }
 }
 
-void AbilityManager::useAbility(GameField &field, std::optional<int>x, std::optional<int>y) {
+void AbilityManager::useAbility(std::shared_ptr<GameField> field, std::optional<int>x, std::optional<int>y) {
     if (abilities.empty()) {
         throw NoAbilityError("Error: There is no abilities to use.");
     }
     auto ability = abilities.front();
     ability->applyAbility(field, x, y);
     abilities.pop();
+}
+
+AbilityType AbilityManager::getFrontAbilityType() const {
+    return abilities.front()->getAbilityType();
+}
+
+bool AbilityManager::isEmpty() {
+    return abilities.empty();
 }
