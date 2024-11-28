@@ -5,11 +5,13 @@ Ship::Ship()
 
 Ship::Ship(int shipSize_, Orientation orient)
     :  shipSize(shipSize_), orientation(orient),
-    isPlaced(false){}
+    isPlaced(false){
+    initSegments();
+}
 
 void Ship::initSegments() {
     for (int i = 0; i < shipSize; i++) {
-        segments.push_back(std::make_shared<ShipSegment>(shared_from_this()));
+        segments.push_back(std::make_shared<ShipSegment>(shared_from_this(), SegmentState::Intact));
     }
 }
 
@@ -36,6 +38,14 @@ int Ship::getCoordinatesY() const {
 void Ship::setCoordinates(int x_, int y_) {
     this->x = x_;
     this->y = y_;
+}
+
+void Ship::setOrientation(Orientation orientation_){
+    this->orientation = orientation_;
+}
+
+void Ship::setSegmentStatus(int index, SegmentState state){
+    this->segments[index]->setState(state);
 }
 
 std::shared_ptr<ShipSegment> Ship::getSegment(int index){
@@ -86,4 +96,24 @@ void Ship::printInfo() {
             std::cout << "Destroyed\n";
         }
     }
+}
+
+std::string Ship::getInfo() const {
+    std::string segmentsStr = std::to_string(shipSize) + " ";
+    for (const auto& segment : segments) {
+        if (segment->getState() == SegmentState::Intact) {
+            segmentsStr += "2 ";
+        } else if (segment->getState() == SegmentState::Damaged) {
+            segmentsStr += "1 ";
+        } else if (segment->getState() == SegmentState::Destroyed) {
+            segmentsStr += "0 ";
+        }
+    }
+    segmentsStr += std::to_string(x) + " " + std::to_string(y) + " ";
+    if (orientation == Orientation::Vertical){
+        segmentsStr += "v";
+    } else{
+        segmentsStr += "h";
+    }
+    return segmentsStr;
 }

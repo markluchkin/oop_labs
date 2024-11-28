@@ -12,10 +12,10 @@ public:
     std::vector<std::shared_ptr<Ship>> getAllShips();
 
     void printShipsInfo();
-
+    void addShip(std::shared_ptr<Ship> ship);
 private:
     std::vector<std::shared_ptr<Ship>> ships;
-    void addShip(std::shared_ptr<Ship> ship);
+
     void createDefaultSetOfShips();
 };
 

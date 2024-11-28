@@ -7,7 +7,6 @@ class Ship : public std::enable_shared_from_this<Ship>{
 public:
     Ship();
     Ship(int shipSize_ = 1, Orientation orient = Orientation::Vertical);
-
     void initSegments();
     int getSize() const;
 
@@ -17,6 +16,9 @@ public:
     int getCoordinatesX() const;
     int getCoordinatesY() const;
     void setCoordinates(int x_, int y_);
+    void setOrientation(Orientation orientation_);
+
+    void setSegmentStatus(int index, SegmentState state);
 
     std::shared_ptr<ShipSegment> getSegment(int index);
 
@@ -26,6 +28,8 @@ public:
     void setIsPlaced();
 
     void printInfo();
+
+    std::string getInfo() const;
 
 
 private:

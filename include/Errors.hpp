@@ -28,5 +28,10 @@ public:
     CoordinatesOutOfRangeError(const std::string &msg) : std::runtime_error(msg){}
 };
 
+class GameError : public std::runtime_error{
+public:
+    GameError(const std::string &msg) : std::runtime_error(msg){}
+};
+
 
 #endif //OOP_LABS_ERRORS_HPP

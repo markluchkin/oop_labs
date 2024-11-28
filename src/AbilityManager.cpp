@@ -14,6 +14,24 @@ AbilityManager::AbilityManager() {
     }
 }
 
+AbilityManager::AbilityManager(const std::string &info) {
+    std::istringstream iss(info);
+    int abilityType;
+    while (iss >> abilityType){
+        switch (abilityType) {
+            case 0:
+                addAbility(AbilityType::DD);
+                break;
+            case 1:
+                addAbility(AbilityType::Scan);
+                break;
+            case 2:
+                addAbility(AbilityType::Bomb);
+                break;
+        }
+    }
+}
+
 void AbilityManager::addRandomAbility() {
     int abilityType = std::rand() % 3;
     switch (abilityType) {
@@ -58,4 +76,15 @@ AbilityType AbilityManager::getFrontAbilityType() const {
 
 bool AbilityManager::isEmpty() {
     return abilities.empty();
+}
+
+std::string AbilityManager::getAbilitiesInfo() const{
+    std::string info;
+    auto tempQueue = abilities;
+    while (!tempQueue.empty()) {
+        std::shared_ptr<AbilityInterface> ability = tempQueue.front();
+        tempQueue.pop();
+        info += std::to_string(static_cast<int>(ability->getAbilityType())) + " ";
+    }
+    return info;
 }

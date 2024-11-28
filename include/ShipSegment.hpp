@@ -6,7 +6,7 @@ class Ship;
 
 class ShipSegment{
 public:
-    ShipSegment(std::shared_ptr<Ship> parentShip_);
+    ShipSegment(std::shared_ptr<Ship> parentShip_, SegmentState state);
     ~ShipSegment();
     int getHp() const;
     void takeDamage();
