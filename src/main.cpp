@@ -3,9 +3,9 @@
 int main() {
     // TODO:
     // drawer | done
-    // gameLoop
-    // rounds
-    // saves
+    // gameLoop | done
+    // rounds | done
+    // saves | almost
     // attack actions | done
     Game game;
     game.startNewGame();

@@ -11,7 +11,7 @@ ShipManager::ShipManager(std::vector<int> sizes) {
 }
 
 void ShipManager::addShip(std::shared_ptr<Ship> ship) {
-    //ship->initSegments();
+    ship->initSegments();
     ships.push_back(std::move(ship));
 }
 

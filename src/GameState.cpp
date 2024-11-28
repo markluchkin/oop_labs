@@ -107,6 +107,10 @@ std::ostream &operator<<(std::ostream &out, const GameState& state){
     out << std::to_string(state.fieldHeight) + " " + std::to_string(state.fieldWidth) +
            " " + std::to_string(state.getShipsNum()) + "\n";
 
+    out << "Номер раунда / количества уничтоженных кораблей\n";
+    out << std::to_string(state.roundNumber) + " ";
+    out << std::to_string(state.destroyedUserShipsNum) + " " + std::to_string(state.destroyedEnemyShipsNum);
+
     out << "Корабли пользователя\n";
     for (int i = 0; i < state.getShipsNum(); ++i){
         auto ship = state.getUserShips()->getShip(i);
@@ -140,6 +144,12 @@ std::istream &operator>>(std::istream &in, GameState& state){
     state.setUserGameField(std::make_shared<GameField>(h, w));
     state.setEnemyGameField(std::make_shared<GameField>(h, w));
 
+    while (std::getline(in, line) && line != "Номер раунда / количества уничтоженных кораблей") {}
+    int num1, num2, num3;
+    in >> num1 >> num2 >> num3;
+    state.roundNumber = num1;
+    state.destroyedUserShipsNum = num2;
+    state.destroyedEnemyShipsNum = num3;
     while (std::getline(in, line) && line != "Корабли пользователя") {}
 
     std::shared_ptr<ShipManager> tempUserShips;
