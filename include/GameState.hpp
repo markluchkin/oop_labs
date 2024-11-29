@@ -4,6 +4,7 @@
 #include "ShipManager.hpp"
 #include "GameField.hpp"
 #include "AbilityManager.hpp"
+#include "File.hpp"
 
 class GameState {
 public:
