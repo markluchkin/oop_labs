@@ -178,7 +178,8 @@ void Game::placeEnemyShipsAction() {
 void Game::userTurnAction() {
     while(true){
         if (gameState->getUserAbilityManager()->isEmpty()){
-            std::cout << "У вас нет способностей.\n";
+            //
+            // std::cout << "У вас нет способностей.\n";
             break;
         }
         int abilityChoice;
@@ -303,8 +304,8 @@ void Game::saveGame(const std::string &filename) {
     try {
         gameState->save(filename);
         std::cout << "Игра сохранена в " << filename << std::endl;
-    } catch (...) {
-        std::cerr << "Ошибка при сохранении игры: " << std::endl;
+    } catch (GameError& err) {
+        std::cerr << "Ошибка при сохранении игры: " << err.what() << std::endl;
     }
 }
 
@@ -312,7 +313,7 @@ void Game::loadGame(const std::string &filename) {
     try {
         gameState->load(filename);
         std::cout << "Игра загружена из " << filename << std::endl;
-    } catch (...) {
-        std::cerr << "Ошибка при загрузке игры: "  << std::endl;
+    } catch (GameError& err) {
+        std::cerr << "Ошибка при загрузке игры: " << err.what() << std::endl;
     }
 }
