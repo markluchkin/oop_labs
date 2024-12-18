@@ -11,6 +11,18 @@ public:
     Game();
     ~Game() = default;
     void startNewGame();
+    //--------file operations--------/
+    void saveGame(const std::string& filename);
+    void loadGame(const std::string& filename);
+
+    std::shared_ptr<GameField> getUserField() const;
+    std::shared_ptr<GameField> getEnemyField() const;
+    // process:
+    void playTurn();
+    void userTurnAction();
+    void enemyTurnAction();
+    void userAttackAction();
+    void enemyAttackAction();
 private:
     //---------actions---------//
     // setups:
@@ -18,20 +30,11 @@ private:
     std::pair<int, int> setupFieldAction();
     void placeShipsAction();
     void placeEnemyShipsAction();
-    // process:
-    void playTurn();
-    void userTurnAction();
-    void enemyTurnAction();
-    void userAttackAction();
-    void enemyAttackAction();
+
     // other:
     void checkVictory();
     void printRoundInfo();
     std::vector<int> parseShipsInput(const std::string& input);
-
-    //--------file operations--------/
-    void saveGame(const std::string& filename);
-    void loadGame(const std::string& filename);
 
     std::shared_ptr<GameState> gameState;
     bool userTurn;

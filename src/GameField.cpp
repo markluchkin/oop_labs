@@ -156,12 +156,7 @@ bool GameField::attackCell(int x, int y) {
     return destroyed;
 }
 
-void GameField::printField(bool isEnemyField) {
-    if (isEnemyField){
-        std::cout << "============= Поле противника =============\n";
-    } else{
-        std::cout << "================ Ваше поле ================\n";
-    }
+void GameField::printField() {
     std::cout << "  ";
     for (int x = 0; x < width; ++x){
         std::cout << x << " ";

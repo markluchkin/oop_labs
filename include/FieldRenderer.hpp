@@ -6,15 +6,8 @@
 
 class FieldRenderer {
 public:
-    FieldRenderer(const GameField& gameField);
-
-    void render(bool isEnemyField = false) const;
-
-private:
-    const GameField& gameField;
-
-    void drawBorder() const;
-    void drawRow(int row, bool isEnemyField) const;
+    FieldRenderer() = default;
+    void showField(std::shared_ptr<GameField> field, bool playerTurn);
 
 };
 

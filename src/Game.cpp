@@ -37,6 +37,13 @@ void Game::startNewGame() {
     }
 }
 
+std::shared_ptr<GameField> Game::getUserField() const{
+    return gameState->getUserField();
+}
+std::shared_ptr<GameField> Game::getEnemyField() const{
+    return gameState->getEnemyField();
+}
+
 void Game::playTurn() {
     if (userTurn){
         while (true){
@@ -144,7 +151,7 @@ void Game::placeShipsAction() {
 
             try{
                 gameState->getUserField()->placeShip(x, y, userShips->getShip(i), orient);
-                gameState->getUserField()->printField(false);
+                gameState->getUserField()->printField();
                 break;
             } catch(PlaceShipError &err){
                 std::cout << err.what() << std::endl;
@@ -278,8 +285,8 @@ void Game::printRoundInfo() {
     std::cout << "\n==========================================\n";
     std::cout << "-Раунд номер " << gameState->getRoundNumber() << "\n";
     std::cout << "-Текущий ход: " << (userTurn ? "Ваш" : "Противника") << "\n";
-    gameState->getUserField()->printField(false);
-    gameState->getEnemyField()->printField(true);
+    gameState->getUserField()->printField();
+    gameState->getEnemyField()->printField();
 }
 
 std::vector<int> Game::parseShipsInput(const std::string& input) {

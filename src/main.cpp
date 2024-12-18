@@ -1,14 +1,12 @@
 #include "../include/Game.hpp"
-
+enum class A{
+    B, C, D
+};
 int main() {
-    // TODO:
-    // drawer | done
-    // gameLoop | done
-    // rounds | done
-    // saves | almost
-    // attack actions | done
-    Game game;
-    game.startNewGame();
+    //Game game;
+    //game.startNewGame();
+
+
     return 0;
 }
 

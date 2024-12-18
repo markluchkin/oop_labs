@@ -28,7 +28,7 @@ public:
     void placeShip(int x, int y, const std::shared_ptr<Ship> &ship, Orientation orient = Orientation::Vertical);
     bool attackCell(int x, int y); // true if destroys a ship
 
-    void printField(bool isEnemyField);
+    void printField();
 
     bool isValidCoordinates(int x, int y) const;
     bool isPlaceAvailable(int x, int y, const std::shared_ptr<Ship> &ship) const;
