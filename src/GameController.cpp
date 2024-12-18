@@ -29,7 +29,23 @@ void GameController<InputHandlerType, FieldRendererType>::round() {
 template <typename InputHandlerType, typename FieldRendererType>
 void GameController<InputHandlerType, FieldRendererType>::executeStartCommand(StartCommand cmd) {
     switch (cmd) {
-
+        case StartCommand::NewGame: {
+            int n = inputHandler->getShipsNum();
+            auto sizes = inputHandler->getSizes(n);
+            game->startNewGame(sizes);
+            round();
+            break;
+        }
+        case StartCommand::LoadGame:
+            try {
+                game->loadGame(inputHandler->getFileName());
+                fieldRenderer->showField(game->getUserField(), true);
+                fieldRenderer->showField(game->getEnemyField(), false);
+                round();
+            } catch (std::exception& err) {
+                std::cout << "Cannot load from file: " << err.what() << std::endl;
+            }
+            break;
         default:
             std::cout << "Unknown command!" << std::endl;
     }
@@ -38,7 +54,23 @@ void GameController<InputHandlerType, FieldRendererType>::executeStartCommand(St
 template <typename InputHandlerType, typename FieldRendererType>
 void GameController<InputHandlerType, FieldRendererType>::executeCommand(Command cmd) {
     switch (cmd) {
+        case Save:
+            game->saveGame(inputHandler->getFileName());
+            break;
+        case Load:
+            game->loadGame(inputHandler->getFileName());
+            break;
+        case Attack: {
 
+            break;
+        }
+        case ShowField:
+            fieldRenderer->showField(game->getUserField(), true);
+            break;
+        case Ability: {
+
+            break;
+        }
         default:
             std::cout << "Unknown command!" << std::endl;
     }

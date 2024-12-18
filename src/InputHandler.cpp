@@ -215,3 +215,10 @@ std::vector<int> InputHandler::getCoordinates() {
     }
     return coords; // [0] - x, [1] - y
 }
+
+std::string InputHandler::getFileName() {
+    std::string filename;
+    std::cout << "Введите название файла для загрузки: ";
+    std::cin >> filename;
+    return filename;
+}

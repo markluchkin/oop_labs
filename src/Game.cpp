@@ -2,11 +2,10 @@
 
 Game::Game() : userTurn(true), isUserGameOver(false), isEnemyGameOver(false){}
 
-void Game::startNewGame() {
+void Game::startNewGame(std::vector<int> sizes) {
     std::cout << "Добро пожаловать в Морской бой!\n";
     auto [width, height] = setupFieldAction();
-    auto shipSizes = setupShipsAction(height, width);
-    gameState = std::make_shared<GameState>(width, height, shipSizes);
+    gameState = std::make_shared<GameState>(width, height, sizes);
     placeShipsAction();
     placeEnemyShipsAction();
 
@@ -25,16 +24,16 @@ void Game::startNewGame() {
 
     }
 
-    int choice;
-    std::cout << "Вы проиграли. Хотите начать новую игру? (1 - да, 0 - нет)\n";
-    std::cin >> choice;
-    if (choice == 1){
-        startNewGame();
-    } else if (choice != 0 && choice != 1){
-        std::cout << "Неккоректный ввод. Игра завершена.\n";
-    } else{
-        std::cout << "Игра завершена\n";
-    }
+//    int choice;
+//    std::cout << "Вы проиграли. Хотите начать новую игру? (1 - да, 0 - нет)\n";
+//    std::cin >> choice;
+//    if (choice == 1){
+//        startNewGame();
+//    } else if (choice != 0 && choice != 1){
+//        std::cout << "Неккоректный ввод. Игра завершена.\n";
+//    } else{
+//        std::cout << "Игра завершена\n";
+//    }
 }
 
 std::shared_ptr<GameField> Game::getUserField() const{
@@ -80,47 +79,47 @@ void Game::playTurn() {
     userTurn = !userTurn;
 }
 
-std::vector<int> Game::setupShipsAction(int h, int w) {
-    std::cout << "Выберите режим игры:\n";
-    std::cout << "1. Стандартный набор кораблей\n";
-    std::cout << "2. Ввести собственный набор кораблей\n";
-    std::cout << "Введите 1 или 2: ";
-    int choice;
-    std::cin >> choice;
-    std::vector<int> shipSizes;
-    if (choice == 1){
-        shipSizes = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1};
-    } else if (choice == 2){
-        while (true){
-            std::cout << "Введите длины кораблей через пробел (например: 4 3 3 2 2 2 1 1 1): ";
-            std::string input;
-            std::cin.ignore();
-            std::getline(std::cin, input);
-            try {
-                shipSizes = parseShipsInput(input);
-                int totalLenght = std::accumulate(shipSizes.begin(), shipSizes.end(), 0);
-                if (totalLenght >= h * w - 1){ // длина ширина поля
-                    std::cout << "Слишком много кораблей! Общая длина кораблей превышает размер поля ("
-                              << h * w << "). Попробуйте снова.\n" ;
-                    continue;
-                }
-                break; // Корректный ввод
-            } catch (const std::invalid_argument& err){
-                std::cout << err.what() << " Попробуйте снова.\n";
-            }
-        }
-    } else {
-        if (h * w > 60){
-            std::cout << "Некорректный выбор. Используется стандартный набор кораблей.\n";
-            shipSizes = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1};
-        } else {
-            std::cout << "Размер поля слишком маленький для стандартного набора кораблей. Введите цифру 2.\n";
-            setupShipsAction(h, w);
-        }
-    }
-
-    return shipSizes;
-}
+//std::vector<int> Game::setupShipsAction(int h, int w) {
+//    std::cout << "Выберите режим игры:\n";
+//    std::cout << "1. Стандартный набор кораблей\n";
+//    std::cout << "2. Ввести собственный набор кораблей\n";
+//    std::cout << "Введите 1 или 2: ";
+//    int choice;
+//    std::cin >> choice;
+//    std::vector<int> shipSizes;
+//    if (choice == 1){
+//        shipSizes = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1};
+//    } else if (choice == 2){
+//        while (true){
+//            std::cout << "Введите длины кораблей через пробел (например: 4 3 3 2 2 2 1 1 1): ";
+//            std::string input;
+//            std::cin.ignore();
+//            std::getline(std::cin, input);
+//            try {
+//                shipSizes = parseShipsInput(input);
+//                int totalLenght = std::accumulate(shipSizes.begin(), shipSizes.end(), 0);
+//                if (totalLenght >= h * w - 1){ // длина ширина поля
+//                    std::cout << "Слишком много кораблей! Общая длина кораблей превышает размер поля ("
+//                              << h * w << "). Попробуйте снова.\n" ;
+//                    continue;
+//                }
+//                break; // Корректный ввод
+//            } catch (const std::invalid_argument& err){
+//                std::cout << err.what() << " Попробуйте снова.\n";
+//            }
+//        }
+//    } else {
+//        if (h * w > 60){
+//            std::cout << "Некорректный выбор. Используется стандартный набор кораблей.\n";
+//            shipSizes = {4, 3, 3, 2, 2, 2, 1, 1, 1, 1};
+//        } else {
+//            std::cout << "Размер поля слишком маленький для стандартного набора кораблей. Введите цифру 2.\n";
+//            setupShipsAction(h, w);
+//        }
+//    }
+//
+//    return shipSizes;
+//}
 
 std::pair<int, int> Game::setupFieldAction() {
     int width, height;
@@ -289,23 +288,23 @@ void Game::printRoundInfo() {
     gameState->getEnemyField()->printField();
 }
 
-std::vector<int> Game::parseShipsInput(const std::string& input) {
-    std::vector<int> shipSizes;
-    std::stringstream ss(input);
-    std::string item;
-    while (std::getline(ss, item, ' ')){
-        try{
-            int shipSize = std::stoi(item);
-            if (shipSize <= 0){
-                throw std::invalid_argument("Корабль не может быть нулевой или отрицательной длины.");
-            }
-            shipSizes.push_back(shipSize);
-        } catch (...){
-            throw std::invalid_argument("Некорректный ввод. Должны быть только положительные числа через пробел.");
-        }
-    }
-    return shipSizes;
-}
+//std::vector<int> Game::parseShipsInput(const std::string& input) {
+//    std::vector<int> shipSizes;
+//    std::stringstream ss(input);
+//    std::string item;
+//    while (std::getline(ss, item, ' ')){
+//        try{
+//            int shipSize = std::stoi(item);
+//            if (shipSize <= 0){
+//                throw std::invalid_argument("Корабль не может быть нулевой или отрицательной длины.");
+//            }
+//            shipSizes.push_back(shipSize);
+//        } catch (...){
+//            throw std::invalid_argument("Некорректный ввод. Должны быть только положительные числа через пробел.");
+//        }
+//    }
+//    return shipSizes;
+//}
 
 void Game::saveGame(const std::string &filename) {
     try {

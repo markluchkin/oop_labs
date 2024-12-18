@@ -10,7 +10,7 @@ class Game {
 public:
     Game();
     ~Game() = default;
-    void startNewGame();
+    void startNewGame(std::vector<int> sizes);
     //--------file operations--------/
     void saveGame(const std::string& filename);
     void loadGame(const std::string& filename);
@@ -34,7 +34,6 @@ private:
     // other:
     void checkVictory();
     void printRoundInfo();
-    std::vector<int> parseShipsInput(const std::string& input);
 
     std::shared_ptr<GameState> gameState;
     bool userTurn;

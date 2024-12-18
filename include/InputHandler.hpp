@@ -19,6 +19,7 @@ public:
     std::vector<int> getSizes(int n);
     int getShipsNum();
     std::vector<int> getCoordinates();
+    std::string getFileName();
 
 private:
     void loadFromFile(const std::string& filename = "commands.txt");

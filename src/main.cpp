@@ -1,11 +1,9 @@
-#include "../include/Game.hpp"
-enum class A{
-    B, C, D
-};
-int main() {
-    //Game game;
-    //game.startNewGame();
+#include "../include/GameController.hpp"
 
+int main() {
+    GameController<InputHandler, FieldRenderer> gameController;
+    gameController.init();
+    gameController.startGame();
 
     return 0;
 }
