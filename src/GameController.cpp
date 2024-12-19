@@ -99,7 +99,15 @@ bool GameController<InputHandlerType, FieldRendererType>::executeCommand(Command
             fieldRenderer->showField(game->getUserField(), true);
             break;
         case Ability: {
-
+            auto abilityManager = game->getAbilityManager();
+            AbilityType abilityType = abilityManager->getFrontAbilityType();
+            if (abilityType == AbilityType::Scan){
+                int x = inputHandler->getX();
+                int y = inputHandler->getY();
+                abilityManager->useAbility(game->getEnemyField(), x, y);
+            } else{
+                abilityManager->useAbility(game->getEnemyField());
+            }
             break;
         }
         default:

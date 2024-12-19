@@ -195,16 +195,6 @@ int InputHandler::getShipsNum() {
     return n;
 }
 
-//std::vector<int> InputHandler::getCoordinates() {
-//    std::cout << "Enter coordinates: ";
-//    std::vector<int> coords; // [0] - x, [1] - y
-//    int x, y;
-//    std::cin >> x >> y;
-//    coords[0] = x;
-//    coords[1] = y;
-//    return coords; // [0] - x, [1] - y
-//}
-
 int InputHandler::getX() {
     std::cout << "Enter the X coordinate: ";
     int x;

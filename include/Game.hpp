@@ -17,6 +17,7 @@ public:
 
     std::shared_ptr<GameField> getUserField() const;
     std::shared_ptr<GameField> getEnemyField() const;
+    std::shared_ptr<AbilityManager> getAbilityManager();
     bool getIsUserGameOver() const;
     bool getIsEnemyGameOver() const;
     void incRoundNumber();

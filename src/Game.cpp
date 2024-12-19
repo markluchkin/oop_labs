@@ -7,31 +7,6 @@ void Game::startNewGame(std::vector<int> sizes) {
     gameState = std::make_shared<GameState>(width, height, sizes);
     placeShipsAction();
     placeEnemyShipsAction();
-
-//    while (true){
-//        checkVictory();
-//        if (isUserGameOver){
-//            break;
-//        }
-//        if (isEnemyGameOver){
-//            gameState->resetEnemyState();
-//            placeEnemyShipsAction();
-//            gameState->incRoundNumber();
-//            userTurn = true;
-//        }
-//        playTurn();
-//    }
-
-//    int choice;
-//    std::cout << "Вы проиграли. Хотите начать новую игру? (1 - да, 0 - нет)\n";
-//    std::cin >> choice;
-//    if (choice == 1){
-//        startNewGame();
-//    } else if (choice != 0 && choice != 1){
-//        std::cout << "Неккоректный ввод. Игра завершена.\n";
-//    } else{
-//        std::cout << "Игра завершена\n";
-//    }
 }
 
 std::shared_ptr<GameField> Game::getUserField() const{
@@ -39,6 +14,10 @@ std::shared_ptr<GameField> Game::getUserField() const{
 }
 std::shared_ptr<GameField> Game::getEnemyField() const{
     return gameState->getEnemyField();
+}
+
+std::shared_ptr<AbilityManager> Game::getAbilityManager() {
+    return gameState->getUserAbilityManager();
 }
 
 bool Game::getIsUserGameOver() const{
@@ -184,17 +163,19 @@ void Game::printRoundInfo() {
 void Game::saveGame(const std::string &filename) {
     try {
         gameState->save(filename);
-        std::cout << "The game saves in " << filename << std::endl;
+        std::cout << "The game saved in " << filename << std::endl;
     } catch (GameError& err) {
-        std::cerr << "Error saving game: " << err.what() << std::endl;
+        throw GameError(err.what());
     }
 }
 
 void Game::loadGame(const std::string &filename) {
+    std::vector<int> a;
+    gameState = std::make_shared<GameState>(0, 0, a);
     try {
         gameState->load(filename);
-        std::cout << "The game load from " << filename << std::endl;
+        std::cout << "The game loaded from " << filename << std::endl;
     } catch (GameError& err) {
-        std::cerr << "Error loading game: " << err.what() << std::endl;
+        throw GameError(err.what());
     }
 }

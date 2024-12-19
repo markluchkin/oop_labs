@@ -124,7 +124,7 @@ std::ostream &operator<<(std::ostream &out, const GameState& state){
     }
 
     out << "Способности пользователя\n";
-    out << state.getUserAbilityManager()->getAbilitiesInfo() << "\n";
+    out << state.getUserAbilityManager()->getAbilitiesInfo();
     return out;
 }
 
@@ -225,10 +225,12 @@ std::istream &operator>>(std::istream &in, GameState& state){
         state.getEnemyField()->placeShip(x, y, state.getEnemyShips()->getShip(k), orientation);
     }
 
-    while (std::getline(in, line) && line != "Способности игрока") {}
+    //while (std::getline(in, line) && line != "Способности игрока") {}
+    std::getline(in, line);
 
     std::string abilitiesInfo;
     std::getline(in, abilitiesInfo);
+    //std::cout << "<<<<<<<<<<<<<<" << abilitiesInfo  << "\n";
     state.setUserAbilities(std::make_shared<AbilityManager>(abilitiesInfo));
 
     return in;
