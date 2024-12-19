@@ -101,7 +101,7 @@ void GameState::incDestroyedEnemyShipsNum() {
 }
 
 std::ostream &operator<<(std::ostream &out, const GameState& state){
-    std::cout << "Выполняется сохранение.\n";
+    std::cout << "Saving...\n";
     out << "Размер поля / количество кораблей\n";
 
     out << std::to_string(state.fieldHeight) + " " + std::to_string(state.fieldWidth) +
@@ -129,7 +129,7 @@ std::ostream &operator<<(std::ostream &out, const GameState& state){
 }
 
 std::istream &operator>>(std::istream &in, GameState& state){
-    std::cout << "Выполняется загрузка.\n";
+    std::cout << "Loading...\n";
     std::string line;
 
     while (std::getline(in, line) && line != "Размер поля / количество кораблей"){}

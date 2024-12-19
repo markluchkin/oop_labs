@@ -20,7 +20,7 @@ public:
 
 private:
     void executeStartCommand(StartCommand cmd);
-    void executeCommand(Command cmd);
+    bool executeCommand(Command cmd);
 
     std::shared_ptr<Game> game;
     std::shared_ptr<InputHandlerType> inputHandler;

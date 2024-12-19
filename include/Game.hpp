@@ -17,26 +17,25 @@ public:
 
     std::shared_ptr<GameField> getUserField() const;
     std::shared_ptr<GameField> getEnemyField() const;
+    bool getIsUserGameOver() const;
+    bool getIsEnemyGameOver() const;
+    void incRoundNumber();
+    void resetEnemy();
+
     // process:
-    void playTurn();
-    void userTurnAction();
-    void enemyTurnAction();
-    void userAttackAction();
+    void userAttackAction(int x, int y);
     void enemyAttackAction();
-private:
-    //---------actions---------//
+    // other:
+    void checkVictory();
+    void printRoundInfo();
     // setups:
-    std::vector<int> setupShipsAction(int h, int w);
     std::pair<int, int> setupFieldAction();
     void placeShipsAction();
     void placeEnemyShipsAction();
 
-    // other:
-    void checkVictory();
-    void printRoundInfo();
-
+private:
     std::shared_ptr<GameState> gameState;
-    bool userTurn;
+    //bool userTurn;
     bool isUserGameOver;
     bool isEnemyGameOver;
 };

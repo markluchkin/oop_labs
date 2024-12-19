@@ -1,0 +1,6 @@
+Load v
+Attack z
+Ability a
+ShowField f
+Exit x
+Save s

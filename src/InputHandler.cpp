@@ -195,30 +195,33 @@ int InputHandler::getShipsNum() {
     return n;
 }
 
-std::vector<int> InputHandler::getCoordinates() {
-    std::cout << "Enter coordinates: ";
-    std::vector<int> coords; // [0] - x, [1] - y
-    while (true) {
-        if (!(std::cin >> coords[0])) {
-            std::cout << "Error: Invalid input for x-coordinate.\n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            continue;
-        }
-        if (!(std::cin >> coords[1])) {
-            std::cout << "Error: Invalid input for y-coordinate.\n";
-            std::cin.clear();
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            continue;
-        }
-        break;
-    }
-    return coords; // [0] - x, [1] - y
+//std::vector<int> InputHandler::getCoordinates() {
+//    std::cout << "Enter coordinates: ";
+//    std::vector<int> coords; // [0] - x, [1] - y
+//    int x, y;
+//    std::cin >> x >> y;
+//    coords[0] = x;
+//    coords[1] = y;
+//    return coords; // [0] - x, [1] - y
+//}
+
+int InputHandler::getX() {
+    std::cout << "Enter the X coordinate: ";
+    int x;
+    std::cin >> x;
+    return x;
+}
+
+int InputHandler::getY() {
+    std::cout << "Enter the Y coordinate: ";
+    int y;
+    std::cin >> y;
+    return y;
 }
 
 std::string InputHandler::getFileName() {
     std::string filename;
-    std::cout << "Введите название файла для загрузки: ";
+    std::cout << "Enter the file name: ";
     std::cin >> filename;
     return filename;
 }

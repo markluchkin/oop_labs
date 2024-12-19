@@ -19,6 +19,8 @@ public:
     std::vector<int> getSizes(int n);
     int getShipsNum();
     std::vector<int> getCoordinates();
+    int getX();
+    int getY();
     std::string getFileName();
 
 private:
